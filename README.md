@@ -8,7 +8,7 @@ License
 -------
 **This is draft language subject to change. Do not rely on this license for future releases.**
 
-This code is licensed under the MIT License. See the license.txt file for more information. Generally, you may redistribute or reuse our code however you like so long as you keep the copyright notice in the license.txt file intact.
+This code is not yet licensed.
 
 Dependencies
 ------------
