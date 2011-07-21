@@ -437,6 +437,7 @@ setUpControls = (zooms) ->
 		linktype = $(@).attr("data-class")
 		if $(@).is(":checked")
 			$("." + linktype, "#map_container").removeClass("settings_inactive")
+			sizeLinksOnMap()
 		else
 			$("." + linktype, "#map_container").addClass("settings_inactive")
 	$("#geo_zoom_slider").slider

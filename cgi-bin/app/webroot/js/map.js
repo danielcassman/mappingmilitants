@@ -1,4 +1,4 @@
-var addAttackToGroup, addGroupToMap, addLeaderToGroup, addLinkToMap, countVisibleGroups, englishDate, findDateOnTimeline, fitGroupToTimeline, fitGroups, fixGroupNames, getLinkType, getTimelineLabel, makeTimeline, numberToMonth, placeGroupDOMOnMap, processDate, progressBar, setUpControls, setUpMapArea, setUpTimeline, settings, sizeLink, sizeLinksOnMap, zoomGeographic;
+var addAttackToGroup, addGroupToMap, addLeaderToGroup, addLinkToMap, countVisibleGroups, englishDate, findDateOnTimeline, fitGroupToTimeline, fitGroups, fixGroupNames, getLinkType, getTimelineLabel, makeTimeline, numberToMonth, processDate, progressBar, setUpControls, setUpMapArea, setUpTimeline, settings, sizeLink, sizeLinksOnMap, zoomGeographic;
 settings = {
   MIN_GROUP_WIDTH: 60,
   MIN_YEAR_HEIGHT: 13,
@@ -32,26 +32,12 @@ sizeLink = function(link) {
     width: right_group.position().left - left_group.position().left - ($(link).hasClass("spl") ? 5 : 0)
   }, settings.ANIMATION_SPEED);
 };
-placeGroupDOMOnMap = function(group) {
-  var added, attached_group, attached_groups, _i, _len;
-  attached_groups = $(".group", "#map_container");
-  added = false;
-  for (_i = 0, _len = attached_groups.length; _i < _len; _i++) {
-    attached_group = attached_groups[_i];
-    if (parseInt($(attached_group).attr("data-order"), 10) > parseInt($(group).attr("data-order"), 10)) {
-      $(attached_group).before(group);
-      added = true;
-      break;
-    }
-  }
-  if (!added) {
-    return $(attached_group).after(group);
-  }
-};
 sizeLinksOnMap = function() {
   return setTimeout((function() {
     return $(".link", "#map_container").each(function() {
-      return sizeLink(this);
+      if ($(this).css("display") !== "none") {
+        return sizeLink(this);
+      }
     });
   }), settings.ANIMATION_SPEED);
 };
@@ -195,16 +181,18 @@ makeTimeline = function(startyear, endyear, increment, move_divs) {
   $("#map_wrapper").height($("#timeline").outerHeight());
   $("#map_container").height($("#timeline").outerHeight() - parseInt($("#timeline").css("padding-bottom"), 10) - settings.SCROLL_BAR_WIDTH);
   if (move_divs) {
-    _ref = $(".group");
+    _ref = $(".group", "#map_container");
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       group = _ref[_i];
-      fitGroupToTimeline(group, increment);
+      fitGroupToTimeline(group, increment, startyear, endyear);
     }
-    return $(".link", "#map_container").each(function() {
+    fitGroups(false, countVisibleGroups());
+    $(".link", "#map_container").each(function() {
       return $(this).animate({
         top: findDateOnTimeline($(this).attr("data-date"), increment)
       }, settings.ANIMATION_SPEED);
     });
+    return sizeLinksOnMap();
   }
 };
 setUpTimeline = function(startyear, endyear) {
@@ -339,6 +327,12 @@ findDateOnTimeline = function(date, increment) {
   if (year === 0) {
     year = settings.enddate;
   }
+  if (year > settings.enddate) {
+    year = settings.enddate;
+  }
+  if (year < settings.startdate) {
+    year = settings.startdate;
+  }
   month = processDate(date, "m");
   if (month === 0) {
     month = 1;
@@ -352,21 +346,36 @@ findDateOnTimeline = function(date, increment) {
   }
   return $("#year-" + closest_year).position().top + ((year - settings.startdate) % increment) / increment * ($("li", "#timeline").first().outerHeight() + settings.year_height) + Math.floor(month * (($("li", "#timeline").first().outerHeight() + settings.year_height) / 12)) / increment;
 };
-fitGroupToTimeline = function(div, increment, animate) {
+fitGroupToTimeline = function(div, increment, startyear, endyear, animate) {
   var top;
   if (animate == null) {
     animate = true;
   }
-  top = findDateOnTimeline($(div).attr("data-startdate"), increment);
-  $(div).animate({
-    "margin-top": top,
-    height: findDateOnTimeline($(div).attr("data-enddate"), increment) - top + ($(div).hasClass("active") ? $("li", "#timeline").first().outerHeight() + (parseInt($("#timeline").css("padding-bottom"), 10) - settings.SCROLL_BAR_WIDTH) : 0)
-  }, settings.ANIMATION_SPEED);
-  return $(div).children("div").children(".attack, .leader").each(function() {
-    return $(this).animate({
-      top: findDateOnTimeline($(this).attr("data-date"), increment) - top + settings.ICON_ADJUST
+  if ((processDate($(div).attr("data-enddate"), "y") < startyear && processDate($(div).attr("data-enddate"), "y") !== 0) || processDate($(div).attr("data-startdate"), "y") > endyear) {
+    $(div).addClass("timeline_inactive");
+    $("div.link.group" + $(div).attr("id").substring(6)).addClass("timeline_inactive");
+    return false;
+  }
+  $(div).removeClass("timeline_inactive");
+  $("div.link.group" + $(div).attr("id").substring(6)).removeClass("timeline_inactive");
+  try {
+    if (processDate($(div).attr("data-startdate"), "y") >= startyear) {
+      top = findDateOnTimeline($(div).attr("data-startdate"), increment);
+    } else {
+      top = $("#year-" + startyear).position().top;
+    }
+    $(div).animate({
+      "margin-top": top,
+      height: findDateOnTimeline($(div).attr("data-enddate"), increment) - top + ($(div).hasClass("active") ? $("li", "#timeline").first().outerHeight() + (parseInt($("#timeline").css("padding-bottom"), 10) - settings.SCROLL_BAR_WIDTH) : 0)
     }, settings.ANIMATION_SPEED);
-  });
+    return $(div).children("div").children(".attack, .leader").each(function() {
+      return $(this).animate({
+        top: findDateOnTimeline($(this).attr("data-date"), increment) - top + settings.ICON_ADJUST
+      }, settings.ANIMATION_SPEED);
+    });
+  } catch (error) {
+    return console.log($(div).attr("data-shortname"));
+  }
 };
 addLeaderToGroup = function(div, leader, top) {
   var date, end, html, start;
@@ -486,28 +495,35 @@ addGroupToMap = function(order, group, startdate, enddate, container) {
           "Trace Group": function() {
             var c, class_attr, link, other_group, _k, _l, _len3, _len4, _ref5;
             $("div.link:not(.group" + group.id + ")", "#map_container").addClass("trace_inactive");
-            $("#group-" + group.id).addClass("trace_active");
+            $("div.link.group" + group.id, "#map_container").removeClass("zoom_inactive");
+            $("#group-" + group.id).removeClass("zoom_inactive").addClass("trace_active");
             _ref5 = $("div.link:not(.trace_inactive)", "#map_container");
             for (_k = 0, _len3 = _ref5.length; _k < _len3; _k++) {
               link = _ref5[_k];
               class_attr = $(link).attr("class").split(" ");
               for (_l = 0, _len4 = class_attr.length; _l < _len4; _l++) {
                 c = class_attr[_l];
-                if (c.indexOf("group" === -1)) {
+                if (c.indexOf("group") === -1) {
                   continue;
                 }
-                if (c.indexOf("group" + group.id !== -1)) {
+                if (c === "group" + group.id) {
                   continue;
                 }
-                other_group = c.substring(c.length - 1);
-				console.log(other_group);
-                $("#group-" + other_group).addClass("trace_active");
+                other_group = c.substring(5);
+                $("#group-" + other_group).removeClass("zoom_inactive").addClass("trace_active");
               }
             }
             $("div.group:not(.trace_active)", "#map_container").addClass("trace_inactive");
-            $("div.zoom_inactive", "#map_container").css("display", "block");
             fitGroups(true, countVisibleGroups());
             sizeLinksOnMap();
+            $("#geo_zoom_slider,#geo_zoom_label").css("display", "none");
+            $("#stop_trace_button").css("display", "inline").val("Stop Tracing " + group.shortname).click(function() {
+              $("div.trace_active").removeClass("trace_active");
+              $("div.trace_inactive").removeClass("trace_inactive");
+              $("#geo_zoom_slider,#geo_zoom_label").css("display", "inline-block");
+              $(this).css("display", "none");
+              return zoomGeographic($("#geo_zoom_slider").slider("value"));
+            });
             return $(this).dialog("destroy").remove();
           },
           "Close": function() {
@@ -573,7 +589,7 @@ setUpControls = function(zooms) {
       modal: true,
       width: 600,
       draggable: false,
-      resizable: true,
+      resizable: false,
       title: "Map Settings"
     });
   });
@@ -602,7 +618,8 @@ setUpControls = function(zooms) {
     var linktype;
     linktype = $(this).attr("data-class");
     if ($(this).is(":checked")) {
-      return $("." + linktype, "#map_container").removeClass("settings_inactive");
+      $("." + linktype, "#map_container").removeClass("settings_inactive");
+      return sizeLinksOnMap();
     } else {
       return $("." + linktype, "#map_container").addClass("settings_inactive");
     }
@@ -645,7 +662,6 @@ setUpControls = function(zooms) {
 $(function() {
   $("body").height($(window).height());
   progressBar();
-  setUpControls();
   return $.getJSON("/group/mappingmilitants/cgi-bin/maps/jsondata/3", function(data) {
     $("#progress_bar").progressbar("value", 70);
     settings.startdate = parseInt(data.Map.startyear, 10);
