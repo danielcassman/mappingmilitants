@@ -195,7 +195,7 @@ div.link div.split-right	{
 	background:		transparent url(../img/arrow-right.png) top right no-repeat;
 }
 
-div.settings_inactive, div.zoom_inactive, div.group_activity_inactive, div.trace_inactive, div.timeline_inactive	{
+div.settings_inactive, div.zoom_inactive, div.group_activity_inactive, div.trace_inactive, div.timeline_inactive, div.umbrella.inactive	{
 	display:		none;
 }
 
@@ -233,6 +233,27 @@ div.leader	{
 	background:transparent url(../img/person-25.png);
 	z-index:25;
 	cursor:pointer;
+}
+
+div.umbrella	{
+	position:absolute;
+	background-color:#bbb;
+	opacity:.6;
+	z-index:3;
+}
+
+div.umbrella:hover	{
+	opacity:.9;
+	z-index:12;
+}
+
+div.umbrella span	{
+	display:block;
+	position:relative;
+	width:100%;
+	text-align:center;
+	font-size:1.3em;
+	font-weight:bold;
 }
 
 #settings_dialog input, #settings_dialog label	{

@@ -51,6 +51,10 @@ sizeLinksOnMap = ->
 			if($(@).css("display") isnt "none")
 				sizeLink(@)),
 		settings.ANIMATION_SPEED + 20
+	setTimeout (->
+		$("div.umbrella:not(.inactive)", "#map_container").each ->
+			fitUmbrella $(@), settings.resolution_values[$("#time_zoom_slider").slider("value")]),
+		settings.ANIMATION_SPEED + 20
 
 ###
  * Function: zoomGeographic
@@ -218,6 +222,61 @@ setUpTimeline = (startyear, endyear) ->
 	makeTimeline(startyear, endyear, 1, false)
 
 ###
+ * Function: fitUmbrella
+ * ---------------------
+ * Fits an umbrella in the map area, both vertically and horizontally.
+ *
+ * @param div: the div object for the umbrella.
+ * @param increment: the timeline increment (in years)
+ ###
+fitUmbrella = (div, increment) ->
+	groups = $(div).attr("data-groups").split ","
+	left = Math.pow(2, 53)
+	right = 0
+	groups_on_map = 0
+	for i in [0..groups.length]
+		if !groups[i]? or $("#group-" + groups[i]).css("display") is "none"
+			continue
+		groups_on_map += 1
+		left = Math.min left, $("#group-" + groups[i]).position().left
+		right = Math.max right, $("#group-" + groups[i]).position().left
+	if groups_on_map < 2
+		$(div).addClass "inactive"
+		return false
+	$(div).removeClass "inactive"
+	top = findDateOnTimeline $(div).attr("data-startdate"), increment
+	$(div).css
+		left: left + parseInt($("div.group","#map_container").width() / 2, 10),
+		width: right - left,
+		top: top,
+		height: findDateOnTimeline($(div).attr("data-enddate"), increment) - top
+	$(div).children("span").css
+		top: parseInt(($(div).height() / 2), 10) + parseInt($(div).children("span").height() / 2, 10)
+
+###
+ * Function: addUmbrellaToMap
+ * --------------------------
+ * Creates and adds an umbrella to the map.
+ *
+ * @param umbrella: the JSON object for the umbrella to add.
+ ###
+addUmbrellaToMap = (umbrella) ->
+	div = $ "<div/>",
+		class: "umbrella",
+		html: $("<span/>",
+			text: umbrella.shortname
+		),
+		"data-groups": umbrella.groups.join(","),
+		"data-startdate": umbrella.startdate,
+		"data-enddate": umbrella.enddate,
+		click: ->
+			$("<div/>",
+				html: umbrella.description
+			).dialog
+				title: umbrella.name
+	$("#map_container").append div
+
+###
  * Function: setUpMapArea
  * ----------------------
  * Initializes the map area.
@@ -227,7 +286,7 @@ setUpTimeline = (startyear, endyear) ->
  * @param startdate: the map's initial start date
  * @param enddate: the map's initial end date
  ###
-setUpMapArea = (groups, links, startdate, enddate) ->
+setUpMapArea = (groups, links, umbrellas, startdate, enddate) ->
 	return false if !groups? or !links?
 	
 	# Need to create wrapper and container so the map will scroll properly
@@ -260,6 +319,8 @@ setUpMapArea = (groups, links, startdate, enddate) ->
 		).append($ "<div/>"
 			"class": "dot right"
 		)
+	
+	addUmbrellaToMap umbrella for umbrella in umbrellas
 
 ###
  * Function: fixGroupNames
@@ -693,7 +754,7 @@ $ ->
 			$("#progress_bar").progressbar "value", 80
 			setUpTimeline settings.startdate, settings.enddate
 			$("#progress_bar").progressbar "value", 90
-			setUpMapArea data.groups, data.links, settings.startdate, settings.enddate
+			setUpMapArea data.groups, data.links, data.umbrellas, settings.startdate, settings.enddate
 			$(".toggle_checkbox.start_unchecked").prop("checked", false).each ->
 				$("." + $(@).attr("data-class"), "#map_container").addClass("settings_inactive").fadeOut(settings.ANIMATION_SPEED)
 			$("#progress_bar").progressbar "value", 100

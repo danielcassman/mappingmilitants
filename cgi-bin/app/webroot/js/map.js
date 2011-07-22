@@ -1,4 +1,4 @@
-var addAttackToGroup, addGroupToMap, addLeaderToGroup, addLinkToMap, countVisibleGroups, englishDate, findDateOnTimeline, fitGroupToTimeline, fitGroups, fixGroupNames, getLinkType, getTimelineLabel, makeTimeline, numberToMonth, processDate, progressBar, setUpControls, setUpMapArea, setUpTimeline, settings, sizeLink, sizeLinksOnMap, zoomGeographic;
+var addAttackToGroup, addGroupToMap, addLeaderToGroup, addLinkToMap, addUmbrellaToMap, countVisibleGroups, englishDate, findDateOnTimeline, fitGroupToTimeline, fitGroups, fitUmbrella, fixGroupNames, getLinkType, getTimelineLabel, makeTimeline, numberToMonth, processDate, progressBar, setUpControls, setUpMapArea, setUpTimeline, settings, sizeLink, sizeLinksOnMap, zoomGeographic;
 settings = {
   MIN_GROUP_WIDTH: 60,
   MIN_YEAR_HEIGHT: 13,
@@ -49,11 +49,16 @@ sizeLink = function(link) {
  * allow for the group divs to be animated into place.
  */
 sizeLinksOnMap = function() {
-  return setTimeout((function() {
+  setTimeout((function() {
     return $(".link", "#map_container").each(function() {
       if ($(this).css("display") !== "none") {
         return sizeLink(this);
       }
+    });
+  }), settings.ANIMATION_SPEED + 20);
+  return setTimeout((function() {
+    return $("div.umbrella:not(.inactive)", "#map_container").each(function() {
+      return fitUmbrella($(this), settings.resolution_values[$("#time_zoom_slider").slider("value")]);
     });
   }), settings.ANIMATION_SPEED + 20);
 };
@@ -271,6 +276,71 @@ setUpTimeline = function(startyear, endyear) {
   return makeTimeline(startyear, endyear, 1, false);
 };
 /*
+ * Function: fitUmbrella
+ * ---------------------
+ * Fits an umbrella in the map area, both vertically and horizontally.
+ *
+ * @param div: the div object for the umbrella.
+ * @param increment: the timeline increment (in years)
+ */
+fitUmbrella = function(div, increment) {
+  var groups, groups_on_map, i, left, right, top, _ref;
+  groups = $(div).attr("data-groups").split(",");
+  left = Math.pow(2, 53);
+  right = 0;
+  groups_on_map = 0;
+  for (i = 0, _ref = groups.length; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+    if (!(groups[i] != null) || $("#group-" + groups[i]).css("display") === "none") {
+      continue;
+    }
+    groups_on_map += 1;
+    left = Math.min(left, $("#group-" + groups[i]).position().left);
+    right = Math.max(right, $("#group-" + groups[i]).position().left);
+  }
+  if (groups_on_map < 2) {
+    $(div).addClass("inactive");
+    return false;
+  }
+  $(div).removeClass("inactive");
+  top = findDateOnTimeline($(div).attr("data-startdate"), increment);
+  $(div).css({
+    left: left + parseInt($("div.group", "#map_container").width() / 2, 10),
+    width: right - left,
+    top: top,
+    height: findDateOnTimeline($(div).attr("data-enddate"), increment) - top
+  });
+  return $(div).children("span").css({
+    top: parseInt($(div).height() / 2, 10) + parseInt($(div).children("span").height() / 2, 10)
+  });
+};
+/*
+ * Function: addUmbrellaToMap
+ * --------------------------
+ * Creates and adds an umbrella to the map.
+ *
+ * @param umbrella: the JSON object for the umbrella to add.
+ */
+addUmbrellaToMap = function(umbrella) {
+  var div;
+  div = $("<div/>", {
+    "class": "umbrella",
+    html: $("<span/>", {
+      text: umbrella.shortname
+    }),
+    "data-groups": umbrella.groups.join(","),
+    "data-startdate": umbrella.startdate,
+    "data-enddate": umbrella.enddate,
+    click: function() {
+      return $("<div/>", {
+        html: umbrella.description
+      }).dialog({
+        title: umbrella.name
+      });
+    }
+  });
+  return $("#map_container").append(div);
+};
+/*
  * Function: setUpMapArea
  * ----------------------
  * Initializes the map area.
@@ -280,8 +350,8 @@ setUpTimeline = function(startyear, endyear) {
  * @param startdate: the map's initial start date
  * @param enddate: the map's initial end date
  */
-setUpMapArea = function(groups, links, startdate, enddate) {
-  var container, i, link, wrapper, _i, _len, _ref;
+setUpMapArea = function(groups, links, umbrellas, startdate, enddate) {
+  var container, i, link, umbrella, wrapper, _i, _j, _len, _len2, _ref, _results;
   if (!(groups != null) || !(links != null)) {
     return false;
   }
@@ -311,13 +381,19 @@ setUpMapArea = function(groups, links, startdate, enddate) {
     link = links[_i];
     addLinkToMap(link.Link);
   }
-  return $(".link.all, .link.riv", "#map_container").each(function() {
+  $(".link.all, .link.riv", "#map_container").each(function() {
     return $(this).append($("<div/>", {
       "class": "dot left"
     })).append($("<div/>", {
       "class": "dot right"
     }));
   });
+  _results = [];
+  for (_j = 0, _len2 = umbrellas.length; _j < _len2; _j++) {
+    umbrella = umbrellas[_j];
+    _results.push(addUmbrellaToMap(umbrella));
+  }
+  return _results;
 };
 /*
  * Function: fixGroupNames
@@ -864,7 +940,7 @@ $(function() {
     $("#progress_bar").progressbar("value", 80);
     setUpTimeline(settings.startdate, settings.enddate);
     $("#progress_bar").progressbar("value", 90);
-    setUpMapArea(data.groups, data.links, settings.startdate, settings.enddate);
+    setUpMapArea(data.groups, data.links, data.umbrellas, settings.startdate, settings.enddate);
     $(".toggle_checkbox.start_unchecked").prop("checked", false).each(function() {
       return $("." + $(this).attr("data-class"), "#map_container").addClass("settings_inactive").fadeOut(settings.ANIMATION_SPEED);
     });
