@@ -857,6 +857,7 @@ setUpControls = function(zooms) {
       title: "Map Settings"
     });
   });
+  $("#both_radio").prop("checked", true);
   $("input[name=select_organizations]").change(function() {
     if ($("input[name=select_organizations]:checked").val() === "both") {
       $("div.group", "#map_container").removeClass("settings_inactive");

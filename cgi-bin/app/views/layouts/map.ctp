@@ -10,7 +10,7 @@
 		echo $this->Html->script(array(
 			'http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js',
 			'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js',
-			'map.pack.js'
+			'map.js'
 		));
 		echo $scripts_for_layout
 	?>
@@ -35,7 +35,7 @@
 			<h2>Organizations</h2>
 			<input type="radio" name="select_organizations" value="active" /><label for="select_organizations">Active</label>
 			<input type="radio" name="select_organizations" value="inactive" /><label for="select_organizations">Inactive</label>
-			<input type="radio" name="select_organizations" value="both" checked="checked" /><label for="select_organizations">Both</label>
+			<input type="radio" id="both_radio" name="select_organizations" value="both" checked="checked" /><label for="select_organizations">Both</label>
 		</div>
 		<div class="box">
 			<h2>Organization Events</h2>

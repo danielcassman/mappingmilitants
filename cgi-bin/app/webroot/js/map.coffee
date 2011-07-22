@@ -675,6 +675,7 @@ setUpControls = (zooms) ->
 			title: "Map Settings"
 	
 	# Active/Inactive/Both radio buttons
+	$("#both_radio").prop "checked", true
 	$("input[name=select_organizations]").change ->
 		if $("input[name=select_organizations]:checked").val() is "both"
 			$("div.group","#map_container").removeClass  "settings_inactive"
