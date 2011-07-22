@@ -42,6 +42,44 @@ sizeLink = function(link) {
   }, settings.ANIMATION_SPEED);
 };
 /*
+ * Function: fitUmbrella
+ * ---------------------
+ * Fits an umbrella in the map area, both vertically and horizontally.
+ *
+ * @param div: the div object for the umbrella.
+ * @param increment: the timeline increment (in years)
+ */
+fitUmbrella = function(div, increment) {
+  var groups, groups_on_map, i, left, right, top, _ref;
+  groups = $(div).attr("data-groups").split(",");
+  left = Math.pow(2, 53);
+  right = 0;
+  groups_on_map = 0;
+  for (i = 0, _ref = groups.length; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+    if (!(groups[i] != null) || $("#group-" + groups[i]).css("display") === "none") {
+      continue;
+    }
+    groups_on_map += 1;
+    left = Math.min(left, $("#group-" + groups[i]).position().left);
+    right = Math.max(right, $("#group-" + groups[i]).position().left);
+  }
+  if (groups_on_map < 2) {
+    $(div).addClass("inactive");
+    return false;
+  }
+  $(div).removeClass("inactive");
+  top = findDateOnTimeline($(div).attr("data-startdate"), increment);
+  $(div).css({
+    left: left + parseInt($("div.group", "#map_container").width() / 2, 10),
+    width: right - left,
+    top: top,
+    height: findDateOnTimeline($(div).attr("data-enddate"), increment) - top
+  });
+  return $(div).children("span").css({
+    top: parseInt($(div).height() / 2, 10) - parseInt($(div).children("span").height() / 2, 10)
+  });
+};
+/*
  * Function: sizeLinksOnMap
  * ------------------------
  * Animates the visible links on the map into place so they connect the
@@ -49,16 +87,15 @@ sizeLink = function(link) {
  * allow for the group divs to be animated into place.
  */
 sizeLinksOnMap = function() {
-  setTimeout((function() {
-    return $(".link", "#map_container").each(function() {
+  return setTimeout((function() {
+    $(".link", "#map_container").each(function() {
       if ($(this).css("display") !== "none") {
         return sizeLink(this);
       }
     });
-  }), settings.ANIMATION_SPEED + 20);
-  return setTimeout((function() {
-    return $("div.umbrella:not(.inactive)", "#map_container").each(function() {
-      return fitUmbrella($(this), settings.resolution_values[$("#time_zoom_slider").slider("value")]);
+    return $("div.umbrella", "#map_container").each(function() {
+      fitUmbrella($(this), settings.resolution_values[$("#time_zoom_slider").slider("value")]);
+      return true;
     });
   }), settings.ANIMATION_SPEED + 20);
 };
@@ -276,44 +313,6 @@ setUpTimeline = function(startyear, endyear) {
   return makeTimeline(startyear, endyear, 1, false);
 };
 /*
- * Function: fitUmbrella
- * ---------------------
- * Fits an umbrella in the map area, both vertically and horizontally.
- *
- * @param div: the div object for the umbrella.
- * @param increment: the timeline increment (in years)
- */
-fitUmbrella = function(div, increment) {
-  var groups, groups_on_map, i, left, right, top, _ref;
-  groups = $(div).attr("data-groups").split(",");
-  left = Math.pow(2, 53);
-  right = 0;
-  groups_on_map = 0;
-  for (i = 0, _ref = groups.length; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
-    if (!(groups[i] != null) || $("#group-" + groups[i]).css("display") === "none") {
-      continue;
-    }
-    groups_on_map += 1;
-    left = Math.min(left, $("#group-" + groups[i]).position().left);
-    right = Math.max(right, $("#group-" + groups[i]).position().left);
-  }
-  if (groups_on_map < 2) {
-    $(div).addClass("inactive");
-    return false;
-  }
-  $(div).removeClass("inactive");
-  top = findDateOnTimeline($(div).attr("data-startdate"), increment);
-  $(div).css({
-    left: left + parseInt($("div.group", "#map_container").width() / 2, 10),
-    width: right - left,
-    top: top,
-    height: findDateOnTimeline($(div).attr("data-enddate"), increment) - top
-  });
-  return $(div).children("span").css({
-    top: parseInt($(div).height() / 2, 10) + parseInt($(div).children("span").height() / 2, 10)
-  });
-};
-/*
  * Function: addUmbrellaToMap
  * --------------------------
  * Creates and adds an umbrella to the map.
@@ -402,7 +401,7 @@ setUpMapArea = function(groups, links, umbrellas, startdate, enddate) {
  * top of the group timeline.
  */
 fixGroupNames = function() {
-  return $("span", "#map_container").each(function() {
+  return $("span", ".group").each(function() {
     return $(this).css("margin-top", -1 * $(this).outerHeight());
   });
 };
@@ -578,24 +577,20 @@ fitGroupToTimeline = function(div, increment, startyear, endyear, animate) {
   }
   $(div).removeClass("timeline_inactive");
   $("div.link.group" + $(div).attr("id").substring(6)).removeClass("timeline_inactive");
-  try {
-    if (processDate($(div).attr("data-startdate"), "y") >= startyear) {
-      top = findDateOnTimeline($(div).attr("data-startdate"), increment);
-    } else {
-      top = $("#year-" + startyear).position().top;
-    }
-    $(div).animate({
-      "margin-top": top,
-      height: findDateOnTimeline($(div).attr("data-enddate"), increment) - top + ($(div).hasClass("active") ? $("li", "#timeline").first().outerHeight() + (parseInt($("#timeline").css("padding-bottom"), 10) - settings.SCROLL_BAR_WIDTH) : 0)
-    }, settings.ANIMATION_SPEED);
-    return $(div).children("div").children(".attack, .leader").each(function() {
-      return $(this).animate({
-        top: findDateOnTimeline($(this).attr("data-date"), increment) - top + settings.ICON_ADJUST
-      }, settings.ANIMATION_SPEED);
-    });
-  } catch (error) {
-    return console.log($(div).attr("data-shortname"));
+  if (processDate($(div).attr("data-startdate"), "y") >= startyear) {
+    top = findDateOnTimeline($(div).attr("data-startdate"), increment);
+  } else {
+    top = $("#year-" + startyear).position().top;
   }
+  $(div).animate({
+    "margin-top": top,
+    height: findDateOnTimeline($(div).attr("data-enddate"), increment) - top + ($(div).hasClass("active") ? $("li", "#timeline").first().outerHeight() + (parseInt($("#timeline").css("padding-bottom"), 10) - settings.SCROLL_BAR_WIDTH) : 0)
+  }, settings.ANIMATION_SPEED);
+  return $(div).children("div").children(".attack, .leader").each(function() {
+    return $(this).animate({
+      top: findDateOnTimeline($(this).attr("data-date"), increment) - top + settings.ICON_ADJUST
+    }, settings.ANIMATION_SPEED);
+  });
 };
 /*
  * Function: addLeaderToGroup

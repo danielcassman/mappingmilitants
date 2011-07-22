@@ -39,6 +39,38 @@ sizeLink = (link) ->
 	}, settings.ANIMATION_SPEED
 
 ###
+ * Function: fitUmbrella
+ * ---------------------
+ * Fits an umbrella in the map area, both vertically and horizontally.
+ *
+ * @param div: the div object for the umbrella.
+ * @param increment: the timeline increment (in years)
+ ###
+fitUmbrella = (div, increment) ->
+	groups = $(div).attr("data-groups").split ","
+	left = Math.pow(2, 53)
+	right = 0
+	groups_on_map = 0
+	for i in [0..groups.length]
+		if !groups[i]? or $("#group-" + groups[i]).css("display") is "none"
+			continue
+		groups_on_map += 1
+		left = Math.min left, $("#group-" + groups[i]).position().left
+		right = Math.max right, $("#group-" + groups[i]).position().left
+	if groups_on_map < 2
+		$(div).addClass "inactive"
+		return false
+	$(div).removeClass "inactive"
+	top = findDateOnTimeline $(div).attr("data-startdate"), increment
+	$(div).css
+		left: left + parseInt($("div.group","#map_container").width() / 2, 10),
+		width: right - left,
+		top: top,
+		height: findDateOnTimeline($(div).attr("data-enddate"), increment) - top
+	$(div).children("span").css
+		top: parseInt(($(div).height() / 2), 10) - parseInt($(div).children("span").height() / 2, 10)
+
+###
  * Function: sizeLinksOnMap
  * ------------------------
  * Animates the visible links on the map into place so they connect the
@@ -49,11 +81,11 @@ sizeLinksOnMap = ->
 	setTimeout (->
 		$(".link", "#map_container").each ->
 			if($(@).css("display") isnt "none")
-				sizeLink(@)),
-		settings.ANIMATION_SPEED + 20
-	setTimeout (->
-		$("div.umbrella:not(.inactive)", "#map_container").each ->
-			fitUmbrella $(@), settings.resolution_values[$("#time_zoom_slider").slider("value")]),
+				sizeLink(@)
+		$("div.umbrella", "#map_container").each ->
+			fitUmbrella $(@), settings.resolution_values[$("#time_zoom_slider").slider("value")]
+			return true
+		),
 		settings.ANIMATION_SPEED + 20
 
 ###
@@ -222,38 +254,6 @@ setUpTimeline = (startyear, endyear) ->
 	makeTimeline(startyear, endyear, 1, false)
 
 ###
- * Function: fitUmbrella
- * ---------------------
- * Fits an umbrella in the map area, both vertically and horizontally.
- *
- * @param div: the div object for the umbrella.
- * @param increment: the timeline increment (in years)
- ###
-fitUmbrella = (div, increment) ->
-	groups = $(div).attr("data-groups").split ","
-	left = Math.pow(2, 53)
-	right = 0
-	groups_on_map = 0
-	for i in [0..groups.length]
-		if !groups[i]? or $("#group-" + groups[i]).css("display") is "none"
-			continue
-		groups_on_map += 1
-		left = Math.min left, $("#group-" + groups[i]).position().left
-		right = Math.max right, $("#group-" + groups[i]).position().left
-	if groups_on_map < 2
-		$(div).addClass "inactive"
-		return false
-	$(div).removeClass "inactive"
-	top = findDateOnTimeline $(div).attr("data-startdate"), increment
-	$(div).css
-		left: left + parseInt($("div.group","#map_container").width() / 2, 10),
-		width: right - left,
-		top: top,
-		height: findDateOnTimeline($(div).attr("data-enddate"), increment) - top
-	$(div).children("span").css
-		top: parseInt(($(div).height() / 2), 10) + parseInt($(div).children("span").height() / 2, 10)
-
-###
  * Function: addUmbrellaToMap
  * --------------------------
  * Creates and adds an umbrella to the map.
@@ -329,7 +329,7 @@ setUpMapArea = (groups, links, umbrellas, startdate, enddate) ->
  * top of the group timeline.
  ###
 fixGroupNames = ->
-	$("span", "#map_container").each(->
+	$("span", ".group").each(->
 		$(@).css "margin-top", -1 * $(@).outerHeight());
 
 ###
@@ -454,22 +454,19 @@ fitGroupToTimeline = (div, increment, startyear, endyear, animate = true) ->
 		return false
 	$(div).removeClass "timeline_inactive"
 	$("div.link.group" + $(div).attr("id").substring(6)).removeClass "timeline_inactive"
-	try
-		if processDate($(div).attr("data-startdate"), "y") >= startyear
-			top = findDateOnTimeline($(div).attr("data-startdate"), increment)
-		else
-			top = $("#year-" + startyear).position().top
-		$(div).animate(
-			"margin-top": top
-			height: findDateOnTimeline($(div).attr("data-enddate"), increment) - top + (if $(div).hasClass("active") then $("li", "#timeline").first().outerHeight() + (parseInt($("#timeline").css("padding-bottom"), 10) - settings.SCROLL_BAR_WIDTH) else 0)
-		settings.ANIMATION_SPEED)
-		$(div).children("div").children(".attack, .leader").each ->
-			$(@).animate(
-				top: findDateOnTimeline($(@).attr("data-date"), increment) - top + settings.ICON_ADJUST
-			settings.ANIMATION_SPEED
-			)
-	catch error
-		console.log $(div).attr("data-shortname")
+	if processDate($(div).attr("data-startdate"), "y") >= startyear
+		top = findDateOnTimeline($(div).attr("data-startdate"), increment)
+	else
+		top = $("#year-" + startyear).position().top
+	$(div).animate(
+		"margin-top": top
+		height: findDateOnTimeline($(div).attr("data-enddate"), increment) - top + (if $(div).hasClass("active") then $("li", "#timeline").first().outerHeight() + (parseInt($("#timeline").css("padding-bottom"), 10) - settings.SCROLL_BAR_WIDTH) else 0)
+	settings.ANIMATION_SPEED)
+	$(div).children("div").children(".attack, .leader").each ->
+		$(@).animate(
+			top: findDateOnTimeline($(@).attr("data-date"), increment) - top + settings.ICON_ADJUST
+		settings.ANIMATION_SPEED
+		)
 
 ###
  * Function: addLeaderToGroup
