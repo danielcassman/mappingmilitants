@@ -4,7 +4,7 @@ class CommentsController extends AppController {
 	var $components = array('Auth');
 	
 	function beforeFilter() {
-		$this->Auth->allow('index','create','add');
+		$this->Auth->allow('index','create','add','rss');
 	}
 
 		
@@ -17,6 +17,14 @@ class CommentsController extends AppController {
 		$data = $this->paginate('Comment');
 		$this->set(compact('data'));
 		$this->set('title_for_layout', 'Feedback | Mapping Militant Organizations');
+	}
+	
+	function rss()	{
+		$this->layout = 'rss';
+		$this->set('comments', $this->Comment->find('all', array(
+			'order' => 'Comment.date DESC',
+			'limit' => 25
+		)));
 	}
 	
 	function create()	{
