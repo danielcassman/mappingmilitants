@@ -1,6 +1,5 @@
 body	{
 	background:				#ddd;
-	/*background:				#ddd url(../img/bg3.jpg) center top no-repeat;*/
 }
 
 div#header	{
@@ -236,6 +235,14 @@ p#form_helper img	{
 }
 
 input#q	{
+	display:				block;
 	position:				relative;
-	width:					100%;
+	width:					288px;
+	border:					1px solid black;
+	padding:				5px;
+	
+	-moz-border-radius: 	3px;
+	-webkit-border-radius:	3px;
+	border-radius:			3px;
+	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
 }

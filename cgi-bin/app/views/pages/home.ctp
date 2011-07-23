@@ -13,7 +13,7 @@
 <div class="span-8 last">
 	<h2>Search</h2>
 	<form name="searchform" action="/group/mappingmilitants/cgi-bin/profiles/search" method="get">
-		<p><input type="text" name="q" id="q" style="border:1px solid black; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; padding:5px;" size="40" /></p>
+		<p><input type="text" name="q" id="q" /></p>
 	</form>
 	<p>
 	<?php
