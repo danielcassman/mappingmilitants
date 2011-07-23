@@ -12,7 +12,8 @@
 	<ul>
 		<li><a href="http://jquery.com">jQuery Javascript Library</a></li>
 		<li><a href="http://jqueryui.com">jQuery UI</a> for better interaction and a cleaner graphical experience.</li>
-		<li><a href="http://www.cakephp.org">CakePHP framework</a> for streamlined database manage and web application creation.</li>
+		<li><a href="http://www.cakephp.org">CakePHP framework</a> for streamlined database management and web application creation.</li>
+		<li><a href="http://www.blueprintcss.org/">Blueprint CSS framework</a> for rapid, cross-browser CSS production.</li>
 	</ul>
 </div>
 <div class="span-8 last">
