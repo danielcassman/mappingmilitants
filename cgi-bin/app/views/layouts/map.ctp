@@ -61,7 +61,7 @@
 			<p><span class="legend-mark-border riv"></span>Rivals</p>
 			<p><span class="legend-mark-border spl"></span>Split</p>
 			<p><span class="legend-mark-umbrella"></span>Umbrella</p>
-			<p>For more information on how we classify relationships, see the <?php echo $html->link("definitions page", array("controller" => "pages", "action" => "definitions")); ?>.</p>
+			<p>For more information on how we classify relationships, see the <?php echo $html->link("definitions page", array("controller" => "pages", "action" => "definitions"), array("target" => "_blank")); ?>.</p>
 		</div>
 		<div class="clearfix">
 			<h2>Events</h2>
