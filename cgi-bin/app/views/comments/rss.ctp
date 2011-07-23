@@ -2,7 +2,7 @@
 		<title>Comments | Mapping Militant Organizations | For Administrative Purposes Only</title>
 			<link>http://mappingmilitants.stanford.edu</link>
 			<description>The comments feed to alert team members when new comments are submitted. For internal use only. Neither Stanford University, the Mapping Militant Organizations Project, nor any of the individual team members are responsible for the content of this feed.</description>
-			<atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" type="application/rss+xml" href="http://stanford.edu/group/mappingmilitants/cgi-bin/app/comments/rss/" />
+			<atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" type="application/rss+xml" href="http://stanford.edu/group/mappingmilitants/cgi-bin/comments/rss" />
 	<?php foreach($comments as $comment): ?>
 		<item>
 			<title><?php echo $comment['Comment']['handle'];?> says</title>
