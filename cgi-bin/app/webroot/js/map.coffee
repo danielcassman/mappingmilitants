@@ -229,14 +229,11 @@ makeTimeline = (startyear, endyear, increment = 1, move_divs = true)	->
 			id: "year-" + i
 		))
 	$("#timeline").empty().append date_list
-	$("#wrap").height($(window).height() - $("#header").outerHeight())
-	$("#timeline").height $("#wrap").height() - ($("#timeline").outerHeight() - $("#timeline").height())
+	$("#timeline").height $(window).height() - $("#header").outerHeight() - ($("#timeline").outerHeight() - $("#timeline").height()) - settings.SCROLL_BAR_WIDTH
 	settings.year_height = Math.max(Math.floor(($("#timeline").height() / num_ticks) - $("li", "#timeline").first().outerHeight()), settings.MIN_YEAR_HEIGHT)
 	$("li", "#timeline").css
 		"margin-bottom": settings.year_height
 	$("#timeline").height($("ul", "#timeline").height()) if $("#timeline").height() < $("ul", "#timeline").height()
-	$("#map_wrapper").height $("#timeline").outerHeight()
-	$("#map_container").height($("#timeline").outerHeight() - parseInt($("#timeline").css("padding-bottom"), 10) - settings.SCROLL_BAR_WIDTH)
 	if move_divs
 		fitGroupToTimeline(group, increment, startyear, endyear) for group in $(".group", "#map_container")
 		fitGroups false, countVisibleGroups()
@@ -259,8 +256,12 @@ makeTimeline = (startyear, endyear, increment = 1, move_divs = true)	->
 setUpTimeline = (startyear, endyear) ->
 	container = $("<div/>"
 		id: "timeline"
+		css:
+			top: $("#header").outerHeight()
 	)
-	$("#wrap").append container
+	$("body").append container
+	$(document).scroll ->
+		$("#timeline").css("left", -1 * $("html").offset().left);
 	makeTimeline(startyear, endyear, 1, false)
 
 ###
@@ -307,23 +308,16 @@ addUmbrellaToMap = (umbrella) ->
 setUpMapArea = (groups, links, umbrellas, startdate, enddate) ->
 	return false if !groups? or !links?
 	
-	# Need to create wrapper and container so the map will scroll properly
-	wrapper = $("<div/>"
-		id: "map_wrapper"
-		css:
-			width: $(window).width() - $("#timeline").outerWidth() - settings.SCROLL_BAR_WIDTH
-			height: $("#timeline").outerHeight()
-	)
 	container = $("<div/>"
 		id: "map_container"
 		css:
-			height: $("#timeline").outerHeight() - parseInt($("#timeline").css("padding-bottom"), 10) - settings.SCROLL_BAR_WIDTH
+			left: $("#timeline").outerWidth()
+			top: $("#header").outerHeight()
 	)
 	
 	addGroupToMap i, groups[i], startdate, enddate, container for i in [0..groups.length - 1]
 	
-	$(wrapper).append container
-	$("#wrap").append wrapper
+	$("body").append container
 	
 	fitGroups false, groups.length
 	
@@ -361,8 +355,8 @@ fixGroupNames = ->
  *   through countVisibleGroups.
  ###
 fitGroups = (animate, num_groups) ->
-	group_width = Math.max(Math.floor(($(window).width() - $('#timeline').outerWidth() - settings.SCROLL_BAR_WIDTH) / num_groups), settings.MIN_GROUP_WIDTH)
-	$("#map_container").width num_groups * group_width
+	group_width = Math.max(Math.floor(($(window).width() - $("#timeline").outerWidth() - settings.SCROLL_BAR_WIDTH) / num_groups), settings.MIN_GROUP_WIDTH)
+	$("#map_container").width num_groups * group_width + settings.SCROLL_BAR_WIDTH
 	if animate
 		$(".group","#map_container").animate({width:group_width}, fixGroupNames)
 	else
@@ -443,8 +437,7 @@ findDateOnTimeline = (date, increment = 1) ->
 	year = processDate date, "y"
 	month = processDate date, "m"
 	if month is 0
-		if year isnt 0 then month = 1
-		else month = 12
+		month = 1
 	if year is 0
 		year = settings.enddate
 	if year > settings.enddate then year = settings.enddate
@@ -657,9 +650,9 @@ addGroupToMap = (order, group_data, startdate, enddate, container) ->
 progressBar = ->
 	$("<div/>"
 		id: "progress_dialog"
-		html: '<p>Please wait. The map is loading.</p><p>&nbsp;</p><div id="progress_bar"></div>'
+		html: "<p>Please wait. The map is loading.</p><p>&nbsp;</p><div id=\"progress_bar\"></div>"
 		css:
-			height: '10px'
+			height: 10
 	).dialog
 		modal: true
 		draggable: false
@@ -778,7 +771,6 @@ setUpControls = (zooms) ->
 	$("#timeline_header").text("Timeline: " + settings.startdate + "-" + n.getFullYear())
 
 $ ->
-	$("body").height $(window).height();
 	progressBar()
 	$.getJSON(
 		"/group/mappingmilitants/cgi-bin/maps/jsondata/3"
@@ -795,6 +787,6 @@ $ ->
 			$(".toggle_checkbox.start_unchecked").prop("checked", false).each ->
 				$("." + $(@).attr("data-class"), "#map_container").addClass("settings_inactive").fadeOut(settings.ANIMATION_SPEED)
 			$("#progress_bar").progressbar "value", 100
-			$('#progress_dialog').delay(200).dialog 'destroy'
+			$("#progress_dialog").delay(200).dialog "destroy"
 			zoomGeographic 0
 	)

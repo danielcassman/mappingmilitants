@@ -282,8 +282,7 @@ makeTimeline = function(startyear, endyear, increment, move_divs) {
     }));
   }
   $("#timeline").empty().append(date_list);
-  $("#wrap").height($(window).height() - $("#header").outerHeight());
-  $("#timeline").height($("#wrap").height() - ($("#timeline").outerHeight() - $("#timeline").height()));
+  $("#timeline").height($(window).height() - $("#header").outerHeight() - ($("#timeline").outerHeight() - $("#timeline").height()) - settings.SCROLL_BAR_WIDTH);
   settings.year_height = Math.max(Math.floor(($("#timeline").height() / num_ticks) - $("li", "#timeline").first().outerHeight()), settings.MIN_YEAR_HEIGHT);
   $("li", "#timeline").css({
     "margin-bottom": settings.year_height
@@ -291,8 +290,6 @@ makeTimeline = function(startyear, endyear, increment, move_divs) {
   if ($("#timeline").height() < $("ul", "#timeline").height()) {
     $("#timeline").height($("ul", "#timeline").height());
   }
-  $("#map_wrapper").height($("#timeline").outerHeight());
-  $("#map_container").height($("#timeline").outerHeight() - parseInt($("#timeline").css("padding-bottom"), 10) - settings.SCROLL_BAR_WIDTH);
   if (move_divs) {
     _ref = $(".group", "#map_container");
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -320,9 +317,15 @@ makeTimeline = function(startyear, endyear, increment, move_divs) {
 setUpTimeline = function(startyear, endyear) {
   var container;
   container = $("<div/>", {
-    id: "timeline"
+    id: "timeline",
+    css: {
+      top: $("#header").outerHeight()
+    }
   });
-  $("#wrap").append(container);
+  $("body").append(container);
+  $(document).scroll(function() {
+    return $("#timeline").css("left", -1 * $("html").offset().left);
+  });
   return makeTimeline(startyear, endyear, 1, false);
 };
 /*
@@ -373,28 +376,21 @@ addUmbrellaToMap = function(umbrella) {
  * @param enddate: the map's initial end date
  */
 setUpMapArea = function(groups, links, umbrellas, startdate, enddate) {
-  var container, i, link, umbrella, wrapper, _i, _j, _len, _len2, _ref, _results;
+  var container, i, link, umbrella, _i, _j, _len, _len2, _ref, _results;
   if (!(groups != null) || !(links != null)) {
     return false;
   }
-  wrapper = $("<div/>", {
-    id: "map_wrapper",
-    css: {
-      width: $(window).width() - $("#timeline").outerWidth() - settings.SCROLL_BAR_WIDTH,
-      height: $("#timeline").outerHeight()
-    }
-  });
   container = $("<div/>", {
     id: "map_container",
     css: {
-      height: $("#timeline").outerHeight() - parseInt($("#timeline").css("padding-bottom"), 10) - settings.SCROLL_BAR_WIDTH
+      left: $("#timeline").outerWidth(),
+      top: $("#header").outerHeight()
     }
   });
   for (i = 0, _ref = groups.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
     addGroupToMap(i, groups[i], startdate, enddate, container);
   }
-  $(wrapper).append(container);
-  $("#wrap").append(wrapper);
+  $("body").append(container);
   fitGroups(false, groups.length);
   $("div.group.active", "#map_container").each(function() {
     return $(this).height($(this).height() + $("li", "#timeline").first().outerHeight() + (parseInt($("#timeline").css("padding-bottom"), 10) - settings.SCROLL_BAR_WIDTH));
@@ -440,8 +436,8 @@ fixGroupNames = function() {
  */
 fitGroups = function(animate, num_groups) {
   var group_width;
-  group_width = Math.max(Math.floor(($(window).width() - $('#timeline').outerWidth() - settings.SCROLL_BAR_WIDTH) / num_groups), settings.MIN_GROUP_WIDTH);
-  $("#map_container").width(num_groups * group_width);
+  group_width = Math.max(Math.floor(($(window).width() - $("#timeline").outerWidth() - settings.SCROLL_BAR_WIDTH) / num_groups), settings.MIN_GROUP_WIDTH);
+  $("#map_container").width(num_groups * group_width + settings.SCROLL_BAR_WIDTH);
   if (animate) {
     return $(".group", "#map_container").animate({
       width: group_width
@@ -557,11 +553,7 @@ findDateOnTimeline = function(date, increment) {
   year = processDate(date, "y");
   month = processDate(date, "m");
   if (month === 0) {
-    if (year !== 0) {
-      month = 1;
-    } else {
-      month = 12;
-    }
+    month = 1;
   }
   if (year === 0) {
     year = settings.enddate;
@@ -835,9 +827,9 @@ progressBar = function() {
   var i, updateProgressBar, _results;
   $("<div/>", {
     id: "progress_dialog",
-    html: '<p>Please wait. The map is loading.</p><p>&nbsp;</p><div id="progress_bar"></div>',
+    html: "<p>Please wait. The map is loading.</p><p>&nbsp;</p><div id=\"progress_bar\"></div>",
     css: {
-      height: '10px'
+      height: 10
     }
   }).dialog({
     modal: true,
@@ -979,7 +971,6 @@ setUpControls = function(zooms) {
   return $("#timeline_header").text("Timeline: " + settings.startdate + "-" + n.getFullYear());
 };
 $(function() {
-  $("body").height($(window).height());
   progressBar();
   return $.getJSON("/group/mappingmilitants/cgi-bin/maps/jsondata/3", function(data) {
     $("#progress_bar").progressbar("value", 70);
@@ -995,7 +986,7 @@ $(function() {
       return $("." + $(this).attr("data-class"), "#map_container").addClass("settings_inactive").fadeOut(settings.ANIMATION_SPEED);
     });
     $("#progress_bar").progressbar("value", 100);
-    $('#progress_dialog').delay(200).dialog('destroy');
+    $("#progress_dialog").delay(200).dialog("destroy");
     return zoomGeographic(0);
   });
 });

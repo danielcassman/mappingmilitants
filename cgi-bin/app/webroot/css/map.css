@@ -11,10 +11,13 @@ blockquote, q {quotes:"" "";}
 a img {border:none;}
 :focus {outline:0;}
 
-html {font-size:100.01%;overflow:hidden;}
-body {font-size:70%;color:#222;background:#fff;font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;overflow:hidden;}
+html {font-size:100.01%;overflow:auto;}
+body {font-size:70%;color:#222;background:#fff;font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;overflow:auto;}
 
 div#header	{
+	position:				fixed;
+	top:					0;
+	left:					0;
 	width:					96%;
 	padding:				3px 2%;
 	border-bottom:			1px solid #000;
@@ -24,7 +27,7 @@ div#header	{
 	-webkit-box-shadow: 0px 2px 4px #666; 
 	box-shadow: 0px 2px 4px #666; 
 
-	z-index:				1;
+	z-index:				801;
 }
 
 div#header span.label	{
@@ -42,19 +45,16 @@ div#header div.slider	{
 	margin:					0 0 0 10px;
 }
 
-div#wrap	{
-	width:					100%;
-	overflow:				auto;
-	z-index:				2;
-}
-
 div#timeline	{
-	position:				relative;
-	float:					left;
+	position:				absolute;
+	top:					0;
+	left:					0;
 	width:					70px;
+	background:				#fff;
 	border-right:			5px solid green;
 	text-align:				right;
 	padding:				40px 0;
+	z-index:				800;
 }
 
 div#timeline li	{
@@ -67,18 +67,12 @@ div#timeline li	{
 	max-height:				1em;
 }
 
-div#map_wrapper	{
-	position:				relative;
-	float:					left;
-	z-index:				2;
-	overflow:				auto;
-}
-
 div#map_container	{
 	position:				absolute;
 	top:					0;
 	left:					0;
 	z-index:				2;
+	overflow:				auto;
 }
 
 div#map_container div.group	{

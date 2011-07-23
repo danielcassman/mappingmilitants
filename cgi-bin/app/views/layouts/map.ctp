@@ -23,9 +23,9 @@
 			<div class="slider" id="time_zoom_slider"></div><span id="time_zoom_label" class="label">Timeline Resolution:</span>
 		</div>
 	</div>
-	<div id="wrap" class="container">
+	<!--<div id="wrap" class="container">
 		
-	</div>
+	</div>-->
 	<div id="settings_dialog" class="dialog" style="display:none">
 		<div class="box">
 			<h2 id="timeline_header">Timeline:</h2>
