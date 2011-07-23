@@ -47,6 +47,9 @@ sizeLink = (link) ->
  * @param increment: the timeline increment (in years)
  ###
 fitUmbrella = (div, increment) ->
+	if processDate($(div).attr("data-startdate"), "y") > settings.enddate or ($(div).attr("data-enddate") isnt "0000-00-00" and processDate($(div).attr("data-enddate"), "y") < settings.startdate)
+		$(div).addClass "inactive"
+		return false
 	groups = $(div).attr("data-groups").split ","
 	left = Math.pow(2, 53)
 	right = 0
@@ -63,9 +66,9 @@ fitUmbrella = (div, increment) ->
 	$(div).removeClass "inactive"
 	top = findDateOnTimeline $(div).attr("data-startdate"), increment
 	$(div).css
-		left: left + parseInt($("div.group","#map_container").width() / 2, 10),
-		width: right - left,
-		top: top,
+		left: left + parseInt($("div.group","#map_container").width() / 2, 10)
+		width: right - left
+		top: top
 		height: findDateOnTimeline($(div).attr("data-enddate"), increment) - top
 	$(div).children("span").css
 		top: parseInt(($(div).height() / 2), 10) - parseInt($(div).children("span").height() / 2, 10)
@@ -145,7 +148,7 @@ addLinkToMap = (link) ->
 		"data-group2": link.group2
 		"data-date": link.date
 		click: (e) ->
-			$("<div/>",
+			$("<div/>"
 				html: processDate(link.date, "e") + ": " + link.description
 			).dialog
 				modal: false
@@ -261,16 +264,16 @@ setUpTimeline = (startyear, endyear) ->
  * @param umbrella: the JSON object for the umbrella to add.
  ###
 addUmbrellaToMap = (umbrella) ->
-	div = $ "<div/>",
-		class: "umbrella",
-		html: $("<span/>",
+	div = $ "<div/>"
+		class: "umbrella"
+		html: $("<span/>"
 			text: umbrella.shortname
-		),
-		"data-groups": umbrella.groups.join(","),
-		"data-startdate": umbrella.startdate,
-		"data-enddate": umbrella.enddate,
+		)
+		"data-groups": umbrella.groups.join(",")
+		"data-startdate": umbrella.startdate
+		"data-enddate": umbrella.enddate
 		click: ->
-			$("<div/>",
+			$("<div/>"
 				html: umbrella.description
 			).dialog
 				title: umbrella.name
@@ -293,7 +296,7 @@ setUpMapArea = (groups, links, umbrellas, startdate, enddate) ->
 	wrapper = $("<div/>"
 		id: "map_wrapper"
 		css:
-			width: $(window).width() - $("#timeline").outerWidth() - settings.SCROLL_BAR_WIDTH,
+			width: $(window).width() - $("#timeline").outerWidth() - settings.SCROLL_BAR_WIDTH
 			height: $("#timeline").outerHeight()
 	)
 	container = $("<div/>"
@@ -423,11 +426,14 @@ processDate = (d, part)	->
  ###
 findDateOnTimeline = (date, increment = 1) ->
 	year = processDate date, "y"
-	if year is 0 then year = settings.enddate
+	month = processDate date, "m"
+	if month is 0
+		if year isnt 0 then month = 1
+		else month = 12
+	if year is 0
+		year = settings.enddate
 	if year > settings.enddate then year = settings.enddate
 	if year < settings.startdate then year = settings.startdate
-	month = processDate date, "m"
-	if month is 0 then month = 1
 	if increment is 1
 		closest_year = year
 	else if increment < 1
@@ -666,7 +672,7 @@ setUpControls = (zooms) ->
 	return false if !zooms?
 	$("#legend_button").click ->
 		$("#legend_dialog").dialog
-			title: "Legend",
+			title: "Legend"
 			width: 220
 	resolutions = ["Decade", "5 Years", "Year", "6 Months", "Quarter"]
 	# Set up the buttons with jQueryUI
@@ -738,6 +744,7 @@ setUpControls = (zooms) ->
 		values: [settings.startdate, settings.enddate]
 		slide: (event, ui) ->
 			$("#timeline_header").text("Timeline: " + ui.values[0] + "-" + ui.values[1])
+		change: (event, ui) ->
 			settings.startdate = ui.values[0]
 			settings.enddate = ui.values[1]
 			makeTimeline settings.startdate, settings.enddate, settings.resolution_values[$("#time_zoom_slider").slider("value")]

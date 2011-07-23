@@ -51,6 +51,10 @@ sizeLink = function(link) {
  */
 fitUmbrella = function(div, increment) {
   var groups, groups_on_map, i, left, right, top, _ref;
+  if (processDate($(div).attr("data-startdate"), "y") > settings.enddate || ($(div).attr("data-enddate") !== "0000-00-00" && processDate($(div).attr("data-enddate"), "y") < settings.startdate)) {
+    $(div).addClass("inactive");
+    return false;
+  }
   groups = $(div).attr("data-groups").split(",");
   left = Math.pow(2, 53);
   right = 0;
@@ -532,6 +536,14 @@ findDateOnTimeline = function(date, increment) {
     increment = 1;
   }
   year = processDate(date, "y");
+  month = processDate(date, "m");
+  if (month === 0) {
+    if (year !== 0) {
+      month = 1;
+    } else {
+      month = 12;
+    }
+  }
   if (year === 0) {
     year = settings.enddate;
   }
@@ -540,10 +552,6 @@ findDateOnTimeline = function(date, increment) {
   }
   if (year < settings.startdate) {
     year = settings.startdate;
-  }
-  month = processDate(date, "m");
-  if (month === 0) {
-    month = 1;
   }
   if (increment === 1) {
     closest_year = year;
@@ -923,7 +931,9 @@ setUpControls = function(zooms) {
     max: n.getFullYear(),
     values: [settings.startdate, settings.enddate],
     slide: function(event, ui) {
-      $("#timeline_header").text("Timeline: " + ui.values[0] + "-" + ui.values[1]);
+      return $("#timeline_header").text("Timeline: " + ui.values[0] + "-" + ui.values[1]);
+    },
+    change: function(event, ui) {
       settings.startdate = ui.values[0];
       settings.enddate = ui.values[1];
       return makeTimeline(settings.startdate, settings.enddate, settings.resolution_values[$("#time_zoom_slider").slider("value")]);
