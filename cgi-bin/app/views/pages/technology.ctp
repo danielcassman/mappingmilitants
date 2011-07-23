@@ -15,6 +15,8 @@
 		<li><a href="http://www.cakephp.org">CakePHP framework</a> for streamlined database management and web application creation.</li>
 		<li><a href="http://www.blueprintcss.org/">Blueprint CSS framework</a> for rapid, cross-browser CSS production.</li>
 	</ul>
+	<h2>The Code</h2>
+	<p>The code that powers our maps and websites is open source, released under the <strong>LICENSE</strong> license. If you're interested in reviewing or modifying our code for your own use, please visit our <a href="http://www.github.com/danielcassman/mappingmilitants">GitHub Repository</a>.</p>
 </div>
 <div class="span-8 last">
 	<h2>Search</h2>
