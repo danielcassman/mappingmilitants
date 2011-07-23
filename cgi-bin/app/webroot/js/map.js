@@ -846,6 +846,12 @@ setUpControls = function(zooms) {
   if (!(zooms != null)) {
     return false;
   }
+  $("#legend_button").click(function() {
+    return $("#legend_dialog").dialog({
+      title: "Legend",
+      width: 200
+    });
+  });
   resolutions = ["Decade", "5 Years", "Year", "6 Months", "Quarter"];
   $("input.button").button();
   $("#settings_button").click(function() {

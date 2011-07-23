@@ -18,7 +18,7 @@
 <body>
 	<div id="header">
 		<div id="buttons">
-			<input type="button" class="button" value="Settings" id="settings_button" /> <input type="button" class="button" value="Legend" /> <input type="button" class="button" value="Stop Tracing" id="stop_trace_button" style="display:none" />
+			<input type="button" class="button" value="Settings" id="settings_button" /> <input id="legend_button" type="button" class="button" value="Legend" /> <input type="button" class="button" value="Stop Tracing" id="stop_trace_button" style="display:none" />
 			<div class="slider" id="geo_zoom_slider"></div><span id="geo_zoom_label" class="label">Geo Zoom:</span>
 			<div class="slider" id="time_zoom_slider"></div><span id="time_zoom_label" class="label">Timeline Resolution:</span>
 		</div>
@@ -49,6 +49,16 @@
 			<input data-class="riv" class="link_toggle_checkbox" type="checkbox" id="rivals_checkbox" /><label for="rivals_checkbox">Rivals</label></p>
 			<p><input data-class="spl" class="link_toggle_checkbox" type="checkbox" id="splits_checkbox" /><label for="splits_checkbox">Splits</label>
 			<input data-class="mer" class="link_toggle_checkbox" type="checkbox" id="mergers_checkbox" /><label for="mergers_checkbox">Mergers</label></p>
+		</div>
+	</div>
+	<div id="legend_dialog" class="dialog" style="display:none;">
+		<div class="box">
+			<h2>Relationships</h2>
+			<div class="legend-mark-border all"></div><p class="legend-text">Allies</p>
+			<div class="legend-mark-border aff"></div><p class="legent-text">Affiliates</p>
+			<div class="legend-mark-border mer"></div><p class="legent-text">Merger</p>
+			<div class="legend-mark-border riv"></div><p class="legent-text">Rivals</p>
+			<div class="legend-mark-border spl"></div><p class="legent-text">Split</p>
 		</div>
 	</div>
 </body>
