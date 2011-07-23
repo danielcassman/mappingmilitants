@@ -23,16 +23,10 @@ class MapsController extends AppController {
 
 	function jsondata($id = null)	{
 		$this->layout = 'ajax';
-		if(isset($this->params['url']['edit']))
-			$edit = $this->params['url']['edit'];
-		else
-			$edit = 0;
 		$data = array();
 		$this->Map->id = $id;
-		//$this->set('map', $this->Map->read());
 		$map = $this->Map->read();
 		$data['Map'] = $map['Map'];
-		$this->set('edit', $edit);
 		$groups = $this->Profile->find('all', array(
 			'fields'			=>	array('id','wikiid','name','shortname','startdate','enddate','leadership','majorattacks','short'),
 			'conditions'		=>	array("id IN (SELECT org_id FROM map_orgs WHERE map_id = $id)")
