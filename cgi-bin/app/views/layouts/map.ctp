@@ -52,13 +52,20 @@
 		</div>
 	</div>
 	<div id="legend_dialog" class="dialog" style="display:none;">
-		<div class="box">
+		<div class="clearfix">
 			<h2>Relationships</h2>
-			<div class="legend-mark-border all"></div><p class="legend-text">Allies</p>
-			<div class="legend-mark-border aff"></div><p class="legent-text">Affiliates</p>
-			<div class="legend-mark-border mer"></div><p class="legent-text">Merger</p>
-			<div class="legend-mark-border riv"></div><p class="legent-text">Rivals</p>
-			<div class="legend-mark-border spl"></div><p class="legent-text">Split</p>
+			<p><span class="legend-mark-border all"></span>Allies</p>
+			<p><span class="legend-mark-border aff"></span>Affiliates</p>
+			<p><span class="legend-mark-border mer"></span>Merger</p>
+			<p><span class="legend-mark-border riv"></span>Rivals</p>
+			<p><span class="legend-mark-border spl"></span>Split</p>
+			<p><span class="legend-mark-umbrella"></span>Umbrella</p>
+			<p>For more information on how we classify relationships, see the <?php echo $html->link("definitions page", array("controller" => "pages", "action" => "definitions")); ?>.</p>
+		</div>
+		<div class="clearfix">
+			<h2>Events</h2>
+			<p class="clearfix"><span class="legend-mark-image leader"></span>Leader</p>
+			<p class="clearfix"><span class="legend-mark-image attack"></span>Attack</p>
 		</div>
 	</div>
 </body>

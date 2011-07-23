@@ -666,7 +666,7 @@ setUpControls = (zooms) ->
 	$("#legend_button").click ->
 		$("#legend_dialog").dialog
 			title: "Legend",
-			width: 200
+			width: 220
 	resolutions = ["Decade", "5 Years", "Year", "6 Months", "Quarter"]
 	# Set up the buttons with jQueryUI
 	$("input.button").button()

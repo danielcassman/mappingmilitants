@@ -199,23 +199,7 @@ div.settings_inactive, div.zoom_inactive, div.group_activity_inactive, div.trace
 	display:		none;
 }
 
-div.legend-mark	{
-	display:inline-block;
-	width:40px;
-	height:13px;
-	float:left;
-	margin-right:15px;
-}
-
-div.legend-mark.aff	{background:#fff url(../img/solid-blue.png) 0 6px repeat-x;}
-div.legend-mark.all	{background:#fff url(../img/dashed-blue.png) 0 6px repeat-x;}
-div.legend-mark.mer	{background:#fff url(../img/solid-black.png) 0 6px repeat-x;}
-div.legend-mark.riv	{background:#fff url(../img/dashed-orange.png) 0 6px repeat-x;}
-div.legend-mark.spl	{background:#fff url(../img/split.png) 0 0 no-repeat;}
-div.legend-mark.umb {background-color:#bbb;}
-div.legend-img		{float:left; margin-right:23px;}
-
-div.attack	{
+#map_container div.attack	{
 	position:absolute;
 	left: -9px;
 	width:20px;
@@ -225,7 +209,7 @@ div.attack	{
 	cursor:pointer;
 }
 
-div.leader	{
+#map_container div.leader	{
 	position:absolute;
 	left:-13px;
 	width:25px;
@@ -266,7 +250,7 @@ div.umbrella span	{
 	clear:					right;
 }
 
-#settings_dialog div.box	{
+div.dialog div.box	{
 	position:				relative;
 	padding:				10px;
 	border:					1px solid #666;
@@ -277,7 +261,7 @@ div.umbrella span	{
 	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
 }
 
-#settings_dialog h2	{
+div.dialog h2	{
 	font-weight:			bold;
 	font-size:				1.3em;
 }
@@ -285,3 +269,72 @@ div.umbrella span	{
 #settings_dialog div.box:after, #settings_dialog p:after	{
 	content:"\0020";display:block;height:0;clear:both;visibility:hidden;overflow:hidden;
 }
+
+#legend_dialog p.legend-text	{
+	position:				relative;
+	float:					left;
+	width:					160px;
+	clear:					right;
+}
+
+#legend_dialog span.legend-mark-border	{
+	display:				inline-block;
+	width:					45px;
+	margin-top:				10px;
+	margin-right:			15px;
+	padding-bottom:			8px;
+}
+
+#legend_dialog p	{
+	margin-bottom:			.5em;
+}
+
+#legend_dialog span.aff	{
+	border-top:				2px solid blue;
+}
+
+#legend_dialog span.all	{
+	border-top:				2px dashed blue;
+}
+
+#legend_dialog span.mer	{
+	border-top:				2px solid black;
+}
+
+#legend_dialog span.riv	{
+	border-top:				2px dashed orange;
+}
+
+#legend_dialog span.spl	{
+	background:				transparent url(../img/split.png) top left no-repeat;
+	margin-top:				2px;
+	height:					13px;
+	padding-bottom:			5px;
+}
+
+#legend_dialog span.legend-mark-umbrella	{
+	display:				inline-block;
+	background:				#bbb;
+	margin:					5px 0 0;
+	height:					15px;
+	width:					45px;
+	margin-right:			15px;
+}
+
+#legend_dialog span.legend-mark-image	{
+	display:				inline-block;
+	margin:					0 20px 0 15px;
+	width:					25px;
+	height:					25px;
+}
+
+#legend_dialog span.leader	{
+	background:				transparent url(../img/person-25.png) center center no-repeat;
+}
+
+#legend_dialog span.attack	{
+	background:				transparent url(../img/explosiong-orange-20.png) center center no-repeat;
+}
+
+div.legend-mark.umb {background-color:#bbb;}
+div.legend-img		{float:left; margin-right:23px;}
