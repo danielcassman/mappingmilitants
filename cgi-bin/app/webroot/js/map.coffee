@@ -133,13 +133,13 @@ getLinkType = (type) ->
 addLinkToMap = (link) ->
 	left_first = false
 	active = "active-both"
-	if $('#group-' + link.group1).position().left < $('#group-' + link.group2).position().left
+	if $("#group-" + link.group1).position().left < $("#group-" + link.group2).position().left
 		left_first = true
-	if $('#group-' + link.group1).hasClass("active") and $('#group-' + link.group2).hasClass("active")
+	if $("#group-" + link.group1).hasClass("active") and $("#group-" + link.group2).hasClass("active")
 		active = "active-active"
-	else if $('#group-' + link.group1).hasClass("inactive") and $('#group-' + link.group2).hasClass("inactive")
+	else if $("#group-" + link.group1).hasClass("inactive") and $("#group-" + link.group2).hasClass("inactive")
 		active = "active-inactive"
-	div = $ "<div/>"
+	div = $("<div/>"
 		id: "link-" + link.id
 		class: "link " + link.type + " group" + link.group1 + " group" + link.group2 + " " + active
 		css:
@@ -148,14 +148,21 @@ addLinkToMap = (link) ->
 		"data-group2": link.group2
 		"data-date": link.date
 		click: (e) ->
+			opener = @
+			if $(opener).data("dialog_open")
+				return false;
+			$(opener).data("dialog_open", true)
 			$("<div/>"
 				html: processDate(link.date, "e") + ": " + link.description
 			).dialog
 				modal: false
-				title: $('#group-' + link.group1).attr('data-shortname') + ' and ' + $('#group-' + link.group2).attr('data-shortname') + ' ' + getLinkType(link.type)
+				title: $("#group-" + link.group1).attr("data-shortname") + " and " + $("#group-" + link.group2).attr("data-shortname") + " " + getLinkType(link.type)
 				width: 300
 				"min-height": 100
 				position: [e.pageX - $(window).scrollLeft() - 150, e.pageY - $(window).scrollTop() - 70]
+				beforeClose:  ->
+					$(opener).data "dialog_open", false
+	).data("dialog_open", false)
 	for i in [0..settings.zooms.length]
 		if $("#group-" + link.group1).hasClass("zoom-" + i) and $("#group-" + link.group2).hasClass("zoom-" + i)
 			div.addClass "zoom-" + i
@@ -264,7 +271,7 @@ setUpTimeline = (startyear, endyear) ->
  * @param umbrella: the JSON object for the umbrella to add.
  ###
 addUmbrellaToMap = (umbrella) ->
-	div = $ "<div/>"
+	div = $("<div/>"
 		class: "umbrella"
 		html: $("<span/>"
 			text: umbrella.shortname
@@ -273,11 +280,18 @@ addUmbrellaToMap = (umbrella) ->
 		"data-startdate": umbrella.startdate
 		"data-enddate": umbrella.enddate
 		click: (e) ->
+			if $(@).data "dialog_open"
+				return false
+			$(@).data "dialog_open", true
+			opener = @
 			$("<div/>"
 				html: umbrella.description
 			).dialog
 				title: umbrella.name
 				position: [e.pageX - $(window).scrollLeft() - 150, e.pageY - $(window).scrollTop() - 70]
+				beforeClose: ->
+					$(opener).data "dialog_open", false
+	).data "dialog_open", false
 	$("#map_container").append div
 
 ###
@@ -350,9 +364,9 @@ fitGroups = (animate, num_groups) ->
 	group_width = Math.max(Math.floor(($(window).width() - $('#timeline').outerWidth() - settings.SCROLL_BAR_WIDTH) / num_groups), settings.MIN_GROUP_WIDTH)
 	$("#map_container").width num_groups * group_width
 	if animate
-		$('.group','#map_container').animate({width:group_width}, fixGroupNames)
+		$(".group","#map_container").animate({width:group_width}, fixGroupNames)
 	else
-		$('.group','#map_container').width group_width
+		$(".group","#map_container").width group_width
 		fixGroupNames()
 
 ###
@@ -512,12 +526,18 @@ addLeaderToGroup = (div, leader, top) ->
 			top: Math.max 0, findDateOnTimeline(date) - top - settings.ICON_ADJUST
 		"data-date": date
 		click: (e) ->
+			opener = @
+			if $(opener).data "dialog_open"
+				return false
+			$(opener).data "dialog_open", true
 			$("<div/>"
 				html: html
 			).dialog
 				title: "Leadership Change: " + leader.name
 				position: [e.pageX - $(window).scrollLeft() - 150, e.pageY - $(window).scrollTop() - 70]
-	)
+				beforeClose:  ->
+					$(opener).data "dialog_open", false
+	).data "dialog_open", false
 
 ###
  * Function: addAttackToGroup
@@ -535,12 +555,18 @@ addAttackToGroup = (div, attack, top) ->
 		css:
 			top: findDateOnTimeline(attack.date) - top - settings.ICON_ADJUST
 		click: (e) ->
+			opener = @
+			if $(opener).data "dialog_open"
+				return false
+			$(opener).data "dialog_open", true
 			$("<div/>"
 				html: "<p><b>" + processDate(attack.date, "e") + ":</b> " + attack.description + (if attack.casualties? then " (" + attack.casualties + ")" else "") + ".</p>"
 			).dialog
 				title: "Major Attack"
 				position: [e.pageX - $(window).scrollLeft() - 150, e.pageY - $(window).scrollTop() - 70]
-	)
+				beforeClose:  ->
+					$(opener).data "dialog_open", false
+	).data "dialog_open", false
 
 ###
  * Function: addGroupToMap

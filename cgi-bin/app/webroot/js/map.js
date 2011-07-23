@@ -153,12 +153,12 @@ addLinkToMap = function(link) {
   var active, div, i, left_first, _ref;
   left_first = false;
   active = "active-both";
-  if ($('#group-' + link.group1).position().left < $('#group-' + link.group2).position().left) {
+  if ($("#group-" + link.group1).position().left < $("#group-" + link.group2).position().left) {
     left_first = true;
   }
-  if ($('#group-' + link.group1).hasClass("active") && $('#group-' + link.group2).hasClass("active")) {
+  if ($("#group-" + link.group1).hasClass("active") && $("#group-" + link.group2).hasClass("active")) {
     active = "active-active";
-  } else if ($('#group-' + link.group1).hasClass("inactive") && $('#group-' + link.group2).hasClass("inactive")) {
+  } else if ($("#group-" + link.group1).hasClass("inactive") && $("#group-" + link.group2).hasClass("inactive")) {
     active = "active-inactive";
   }
   div = $("<div/>", {
@@ -171,17 +171,26 @@ addLinkToMap = function(link) {
     "data-group2": link.group2,
     "data-date": link.date,
     click: function(e) {
+      var opener;
+      opener = this;
+      if ($(opener).data("dialog_open")) {
+        return false;
+      }
+      $(opener).data("dialog_open", true);
       return $("<div/>", {
         html: processDate(link.date, "e") + ": " + link.description
       }).dialog({
         modal: false,
-        title: $('#group-' + link.group1).attr('data-shortname') + ' and ' + $('#group-' + link.group2).attr('data-shortname') + ' ' + getLinkType(link.type),
+        title: $("#group-" + link.group1).attr("data-shortname") + " and " + $("#group-" + link.group2).attr("data-shortname") + " " + getLinkType(link.type),
         width: 300,
         "min-height": 100,
-        position: [e.pageX - $(window).scrollLeft() - 150, e.pageY - $(window).scrollTop() - 70]
+        position: [e.pageX - $(window).scrollLeft() - 150, e.pageY - $(window).scrollTop() - 70],
+        beforeClose: function() {
+          return $(opener).data("dialog_open", false);
+        }
       });
     }
-  });
+  }).data("dialog_open", false);
   for (i = 0, _ref = settings.zooms.length; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
     if ($("#group-" + link.group1).hasClass("zoom-" + i) && $("#group-" + link.group2).hasClass("zoom-" + i)) {
       div.addClass("zoom-" + i);
@@ -334,14 +343,23 @@ addUmbrellaToMap = function(umbrella) {
     "data-startdate": umbrella.startdate,
     "data-enddate": umbrella.enddate,
     click: function(e) {
+      var opener;
+      if ($(this).data("dialog_open")) {
+        return false;
+      }
+      $(this).data("dialog_open", true);
+      opener = this;
       return $("<div/>", {
         html: umbrella.description
       }).dialog({
         title: umbrella.name,
-        position: [e.pageX - $(window).scrollLeft() - 150, e.pageY - $(window).scrollTop() - 70]
+        position: [e.pageX - $(window).scrollLeft() - 150, e.pageY - $(window).scrollTop() - 70],
+        beforeClose: function() {
+          return $(opener).data("dialog_open", false);
+        }
       });
     }
-  });
+  }).data("dialog_open", false);
   return $("#map_container").append(div);
 };
 /*
@@ -425,11 +443,11 @@ fitGroups = function(animate, num_groups) {
   group_width = Math.max(Math.floor(($(window).width() - $('#timeline').outerWidth() - settings.SCROLL_BAR_WIDTH) / num_groups), settings.MIN_GROUP_WIDTH);
   $("#map_container").width(num_groups * group_width);
   if (animate) {
-    return $('.group', '#map_container').animate({
+    return $(".group", "#map_container").animate({
       width: group_width
     }, fixGroupNames);
   } else {
-    $('.group', '#map_container').width(group_width);
+    $(".group", "#map_container").width(group_width);
     return fixGroupNames();
   }
 };
@@ -642,14 +660,23 @@ addLeaderToGroup = function(div, leader, top) {
     },
     "data-date": date,
     click: function(e) {
+      var opener;
+      opener = this;
+      if ($(opener).data("dialog_open")) {
+        return false;
+      }
+      $(opener).data("dialog_open", true);
       return $("<div/>", {
         html: html
       }).dialog({
         title: "Leadership Change: " + leader.name,
-        position: [e.pageX - $(window).scrollLeft() - 150, e.pageY - $(window).scrollTop() - 70]
+        position: [e.pageX - $(window).scrollLeft() - 150, e.pageY - $(window).scrollTop() - 70],
+        beforeClose: function() {
+          return $(opener).data("dialog_open", false);
+        }
       });
     }
-  }));
+  })).data("dialog_open", false);
 };
 /*
  * Function: addAttackToGroup
@@ -668,14 +695,23 @@ addAttackToGroup = function(div, attack, top) {
       top: findDateOnTimeline(attack.date) - top - settings.ICON_ADJUST
     },
     click: function(e) {
+      var opener;
+      opener = this;
+      if ($(opener).data("dialog_open")) {
+        return false;
+      }
+      $(opener).data("dialog_open", true);
       return $("<div/>", {
         html: "<p><b>" + processDate(attack.date, "e") + ":</b> " + attack.description + (attack.casualties != null ? " (" + attack.casualties + ")" : "") + ".</p>"
       }).dialog({
         title: "Major Attack",
-        position: [e.pageX - $(window).scrollLeft() - 150, e.pageY - $(window).scrollTop() - 70]
+        position: [e.pageX - $(window).scrollLeft() - 150, e.pageY - $(window).scrollTop() - 70],
+        beforeClose: function() {
+          return $(opener).data("dialog_open", false);
+        }
       });
     }
-  }));
+  })).data("dialog_open", false);
 };
 /*
  * Function: addGroupToMap
