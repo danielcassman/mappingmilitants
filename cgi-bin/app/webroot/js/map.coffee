@@ -272,11 +272,12 @@ addUmbrellaToMap = (umbrella) ->
 		"data-groups": umbrella.groups.join(",")
 		"data-startdate": umbrella.startdate
 		"data-enddate": umbrella.enddate
-		click: ->
+		click: (e) ->
 			$("<div/>"
 				html: umbrella.description
 			).dialog
 				title: umbrella.name
+				position: [e.pageX - $(window).scrollLeft() - 150, e.pageY - $(window).scrollTop() - 70]
 	$("#map_container").append div
 
 ###

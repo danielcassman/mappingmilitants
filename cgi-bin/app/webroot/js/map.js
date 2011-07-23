@@ -333,11 +333,12 @@ addUmbrellaToMap = function(umbrella) {
     "data-groups": umbrella.groups.join(","),
     "data-startdate": umbrella.startdate,
     "data-enddate": umbrella.enddate,
-    click: function() {
+    click: function(e) {
       return $("<div/>", {
         html: umbrella.description
       }).dialog({
-        title: umbrella.name
+        title: umbrella.name,
+        position: [e.pageX - $(window).scrollLeft() - 150, e.pageY - $(window).scrollTop() - 70]
       });
     }
   });
