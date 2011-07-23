@@ -39,16 +39,17 @@
 		</div>
 		<div class="box">
 			<h2>Organization Events</h2>
-			<input data-class="attack" class="toggle_checkbox start_unchecked" type="checkbox" id="attacks_checkbox" /><label for="attacks_checkbox">Major attacks</label>
-			<input data-class="leader" class="toggle_checkbox start_unchecked" type="checkbox" id="leaders_checkbox" /><label for="leaders_checkbox">Leaders</label>
+			<input data-class="attack" class="toggle_checkbox start_unchecked" type="checkbox" id="attacks_checkbox" name="attacks_checkbox" /><label for="attacks_checkbox">Major attacks</label>
+			<input data-class="leader" class="toggle_checkbox start_unchecked" type="checkbox" id="leaders_checkbox" name="leaders_checkbox" /><label for="leaders_checkbox">Leaders</label>
 		</div>
 		<div class="box">
 			<h2>Relationships</h2>
-			<p><input data-class="all" class="link_toggle_checkbox" type="checkbox" id="allies_checkbox" /><label for="allies_checkbox">Ally</label>
-			<input data-class="aff" class="link_toggle_checkbox" type="checkbox" id="affiliates_checkbox" /><label for="affiliates_checkbox">Affiliates</label>
-			<input data-class="riv" class="link_toggle_checkbox" type="checkbox" id="rivals_checkbox" /><label for="rivals_checkbox">Rivals</label></p>
-			<p><input data-class="spl" class="link_toggle_checkbox" type="checkbox" id="splits_checkbox" /><label for="splits_checkbox">Splits</label>
-			<input data-class="mer" class="link_toggle_checkbox" type="checkbox" id="mergers_checkbox" /><label for="mergers_checkbox">Mergers</label></p>
+			<p><input data-class="all" class="link_toggle_checkbox" type="checkbox" id="allies_checkbox" name="allies_checkbox" /><label for="allies_checkbox">Ally</label>
+			<input data-class="aff" class="link_toggle_checkbox" type="checkbox" id="affiliates_checkbox" name="affiliates_checkbox" /><label for="affiliates_checkbox">Affiliates</label>
+			<input data-class="riv" class="link_toggle_checkbox" type="checkbox" id="rivals_checkbox" name="rivals_checkbox" /><label for="rivals_checkbox">Rivals</label></p>
+			<p><input data-class="spl" class="link_toggle_checkbox" type="checkbox" id="splits_checkbox" name="splits_checkbox" /><label for="splits_checkbox">Splits</label>
+			<input data-class="mer" class="link_toggle_checkbox" type="checkbox" id="mergers_checkbox" name="mergers_checkbox" /><label for="mergers_checkbox">Mergers</label></p>
+			<input data-class="umbrella" class="toggle_checkbox" type="checkbox" id="umbrellas_checkbox" name="umbrellas_checkbox" /><label for="umbrellas_checkbox">Umbrellas</label></p>
 		</div>
 	</div>
 	<div id="legend_dialog" class="dialog" style="display:none;">
