@@ -20,8 +20,8 @@
 		$g = findGroupById($gd['Map_org']['org_id'], $groups);
 		$g['Profile']['min_zoom'] = $gd['Map_org']['min_zoom'];
 		$g['Profile']['max_zoom'] = $gd['Map_org']['max_zoom'];
-		$g['Profile']['majorattacks'] = unserialize(stripslashes($g['Profile']['majorattacks']));
-		$g['Profile']['leadership'] = unserialize(stripslashes($g['Profile']['leadership']));
+		unset($g['Profile']['majorattacks']);
+		unset($g['Profile']['leadership']);
 		$g['Profile']['name'] = stripslashes($g['Profile']['name']);
 		$g['Profile']['description'] = stripslashes($g['Profile']['short']);
 		if($g['Profile']['enddate'] == '0000-00-00')

@@ -302,7 +302,7 @@ setUpMapArea = (groups, links, umbrellas, startdate, enddate) ->
 			height: $("#timeline").outerHeight() - parseInt($("#timeline").css("padding-bottom"), 10) - settings.SCROLL_BAR_WIDTH
 	)
 	
-	addGroupToMap i, groups[i].Profile, startdate, enddate, container for i in [0..groups.length - 1]
+	addGroupToMap i, groups[i], startdate, enddate, container for i in [0..groups.length - 1]
 	
 	$(wrapper).append container
 	$("#wrap").append wrapper
@@ -496,9 +496,9 @@ addLeaderToGroup = (div, leader, top) ->
 		return false
 	if start
 		html = "<p>Assumed leadership " + processDate(leader.startdate, "e") + ".</p>"
-		html += "<p>" + (if leader.enddate.toLowerCase() isnt "unknown" and leader.enddate isnt "?" then processDate(leader.enddate, "e") + ": " else "") + leader.status + "</p>"
+		html += "<p>" + (if leader.enddate.toLowerCase() isnt "unknown" and leader.enddate isnt "?" and leader.enddate isnt "0000-00-00" then processDate(leader.enddate, "e") + ": " else "") + leader.summary + "</p>"
 	else
-		html = "<p>" + processDate(leader.enddate) + ": " + leader.status + "</p>"
+		html = "<p>" + processDate(leader.enddate, "e") + ": " + leader.summary + "</p>"
 	$(div).append($ "<div/>"
 		class: "leader"
 		css:
@@ -546,8 +546,9 @@ addAttackToGroup = (div, attack, top) ->
  * @param container: the jQuery object for the container to which the group DOM
  *   should be added
  ###
-addGroupToMap = (order, group, startdate, enddate, container) ->
-	return false if !group? or !container?
+addGroupToMap = (order, group_data, startdate, enddate, container) ->
+	return false if !group_data? or !container?
+	group = group_data.Profile
 	start_year = if processDate(group.startdate, "y") >= startdate then group.startdate else startdate + "-00-00"
 	top = findDateOnTimeline(start_year)
 	div = $("<div/>"
@@ -564,8 +565,8 @@ addGroupToMap = (order, group, startdate, enddate, container) ->
 		html: $ "<div/>"
 			class: "group_timeline"
 	)
-	addAttackToGroup div.children("div"), attack, top for attack in group.majorattacks
-	addLeaderToGroup div.children("div"), leader, top for leader in group.leadership
+	addAttackToGroup div.children("div"), attack, top for attack in group_data.Attack
+	addLeaderToGroup div.children("div"), leader, top for leader in group_data.Leader
 	div.addClass("zoom-" + i) for i in [parseInt(group.min_zoom, 10)..parseInt(group.max_zoom, 10)]
 	div.prepend $("<span/>"
 		text: group.shortname

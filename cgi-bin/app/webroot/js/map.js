@@ -368,7 +368,7 @@ setUpMapArea = function(groups, links, umbrellas, startdate, enddate) {
     }
   });
   for (i = 0, _ref = groups.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
-    addGroupToMap(i, groups[i].Profile, startdate, enddate, container);
+    addGroupToMap(i, groups[i], startdate, enddate, container);
   }
   $(wrapper).append(container);
   $("#wrap").append(wrapper);
@@ -622,9 +622,9 @@ addLeaderToGroup = function(div, leader, top) {
   }
   if (start) {
     html = "<p>Assumed leadership " + processDate(leader.startdate, "e") + ".</p>";
-    html += "<p>" + (leader.enddate.toLowerCase() !== "unknown" && leader.enddate !== "?" ? processDate(leader.enddate, "e") + ": " : "") + leader.status + "</p>";
+    html += "<p>" + (leader.enddate.toLowerCase() !== "unknown" && leader.enddate !== "?" && leader.enddate !== "0000-00-00" ? processDate(leader.enddate, "e") + ": " : "") + leader.summary + "</p>";
   } else {
-    html = "<p>" + processDate(leader.enddate) + ": " + leader.status + "</p>";
+    html = "<p>" + processDate(leader.enddate, "e") + ": " + leader.summary + "</p>";
   }
   return $(div).append($("<div/>", {
     "class": "leader",
@@ -679,11 +679,12 @@ addAttackToGroup = function(div, attack, top) {
  * @param container: the jQuery object for the container to which the group DOM
  *   should be added
  */
-addGroupToMap = function(order, group, startdate, enddate, container) {
-  var attack, div, i, leader, start_year, top, _i, _j, _len, _len2, _ref, _ref2, _ref3, _ref4;
-  if (!(group != null) || !(container != null)) {
+addGroupToMap = function(order, group_data, startdate, enddate, container) {
+  var attack, div, group, i, leader, start_year, top, _i, _j, _len, _len2, _ref, _ref2, _ref3, _ref4;
+  if (!(group_data != null) || !(container != null)) {
     return false;
   }
+  group = group_data.Profile;
   start_year = processDate(group.startdate, "y") >= startdate ? group.startdate : startdate + "-00-00";
   top = findDateOnTimeline(start_year);
   div = $("<div/>", {
@@ -702,12 +703,12 @@ addGroupToMap = function(order, group, startdate, enddate, container) {
       "class": "group_timeline"
     })
   });
-  _ref = group.majorattacks;
+  _ref = group_data.Attack;
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     attack = _ref[_i];
     addAttackToGroup(div.children("div"), attack, top);
   }
-  _ref2 = group.leadership;
+  _ref2 = group_data.Leader;
   for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
     leader = _ref2[_j];
     addLeaderToGroup(div.children("div"), leader, top);
@@ -849,8 +850,7 @@ setUpControls = function(zooms) {
   $("#legend_button").click(function() {
     return $("#legend_dialog").dialog({
       title: "Legend",
-      width: 220,
-	  minWidth: 220
+      width: 220
     });
   });
   resolutions = ["Decade", "5 Years", "Year", "6 Months", "Quarter"];
