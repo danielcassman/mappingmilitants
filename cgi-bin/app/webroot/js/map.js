@@ -91,7 +91,9 @@ fitUmbrella = function(div, increment) {
  * allow for the group divs to be animated into place.
  */
 sizeLinksOnMap = function() {
-  return setTimeout((function() {
+  if ($(".group", "#map_container").is(":animated")) {
+    return setTimeout(sizeLinksOnMap, settings.ANIMATION_SPEED);
+  } else {
     $(".link", "#map_container").each(function() {
       if ($(this).css("display") !== "none") {
         return sizeLink(this);
@@ -101,7 +103,7 @@ sizeLinksOnMap = function() {
       fitUmbrella($(this), settings.resolution_values[$("#time_zoom_slider").slider("value")]);
       return true;
     });
-  }), settings.ANIMATION_SPEED + 20);
+  }
 };
 /*
  * Function: zoomGeographic

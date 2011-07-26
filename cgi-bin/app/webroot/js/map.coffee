@@ -81,15 +81,15 @@ fitUmbrella = (div, increment) ->
  * allow for the group divs to be animated into place.
  ###
 sizeLinksOnMap = ->
-	setTimeout (->
+	if $(".group", "#map_container").is(":animated")
+		setTimeout sizeLinksOnMap, settings.ANIMATION_SPEED
+	else
 		$(".link", "#map_container").each ->
 			if($(@).css("display") isnt "none")
 				sizeLink(@)
 		$("div.umbrella", "#map_container").each ->
 			fitUmbrella $(@), settings.resolution_values[$("#time_zoom_slider").slider("value")]
 			return true
-		),
-		settings.ANIMATION_SPEED + 20
 
 ###
  * Function: zoomGeographic
