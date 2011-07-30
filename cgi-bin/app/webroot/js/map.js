@@ -59,7 +59,7 @@ fitUmbrella = function(div, increment) {
   left = Math.pow(2, 53);
   right = 0;
   groups_on_map = 0;
-  for (i = 0, _ref = groups.length; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+  for (i = 0, _ref = groups.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
     if (!(groups[i] != null) || $("#group-" + groups[i]).css("display") === "none") {
       continue;
     }
@@ -193,7 +193,7 @@ addLinkToMap = function(link) {
       });
     }
   }).data("dialog_open", false);
-  for (i = 0, _ref = settings.zooms.length; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+  for (i = 0, _ref = settings.zooms.length - 1; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
     if ($("#group-" + link.group1).hasClass("zoom-" + i) && $("#group-" + link.group2).hasClass("zoom-" + i)) {
       div.addClass("zoom-" + i);
     }
