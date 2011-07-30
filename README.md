@@ -6,9 +6,7 @@ This repository contains the code used to power our interactive network diagrams
 
 License
 -------
-**This is draft language subject to change. Do not rely on this license for future releases.**
-
-Copyright (c) 2011 Martha Crenshaw
+Copyright (c) 2011 Daniel Cassman and Martha Crenshaw
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
