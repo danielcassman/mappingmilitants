@@ -54,7 +54,7 @@ fitUmbrella = (div, increment) ->
 	left = Math.pow(2, 53)
 	right = 0
 	groups_on_map = 0
-	for i in [0..groups.length - 1]
+	for i in [0...groups.length]
 		if !groups[i]? or $("#group-" + groups[i]).css("display") is "none"
 			continue
 		groups_on_map += 1
@@ -163,7 +163,7 @@ addLinkToMap = (link) ->
 				beforeClose:  ->
 					$(opener).data "dialog_open", false
 	).data("dialog_open", false)
-	for i in [0..settings.zooms.length - 1]
+	for i in [0...settings.zooms.length]
 		if $("#group-" + link.group1).hasClass("zoom-" + i) and $("#group-" + link.group2).hasClass("zoom-" + i)
 			div.addClass "zoom-" + i
 	if link.type == "spl"
@@ -315,7 +315,7 @@ setUpMapArea = (groups, links, umbrellas, startdate, enddate) ->
 			top: $("#header").outerHeight()
 	)
 	
-	addGroupToMap i, groups[i], startdate, enddate, container for i in [0..groups.length - 1]
+	addGroupToMap i, groups[i], startdate, enddate, container for i in [0...groups.length]
 	
 	$("body").append container
 	
