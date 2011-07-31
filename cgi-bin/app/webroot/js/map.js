@@ -758,10 +758,16 @@ addGroupToMap = function(order, group_data, startdate, enddate, container) {
   div.prepend($("<span/>", {
     text: group.shortname,
     mouseenter: function() {
-      return $(this).text(group.name).css("margin-top", -1 * $(this).outerHeight());
+      return $(this).text(group.name).css({
+        "margin-top": -1 * $(this).outerHeight(),
+        "background-color": "#A3B2FF"
+      });
     },
     mouseleave: function() {
-      return $(this).text(group.shortname).css('margin-top', -1 * $(this).outerHeight());
+      return $(this).text(group.shortname).css({
+        "margin-top": -1 * $(this).outerHeight(),
+        "background-color": "#fff"
+      });
     },
     click: function() {
       return $("<div/>", {

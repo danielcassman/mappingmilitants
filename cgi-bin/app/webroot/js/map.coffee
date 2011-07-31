@@ -597,9 +597,13 @@ addGroupToMap = (order, group_data, startdate, enddate, container) ->
 	div.prepend $("<span/>"
 		text: group.shortname
 		mouseenter: ->
-			$(@).text(group.name).css "margin-top", -1 * $(@).outerHeight()
+			$(@).text(group.name).css
+				"margin-top": -1 * $(@).outerHeight()
+				"background-color": "#A3B2FF"
 		mouseleave: ->
-			$(@).text(group.shortname).css 'margin-top', -1 * $(@).outerHeight()
+			$(@).text(group.shortname).css
+				"margin-top": -1 * $(@).outerHeight()
+				"background-color": "#fff"
 		click: ->
 			$("<div/>"
 				html: group.description

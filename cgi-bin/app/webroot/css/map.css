@@ -103,10 +103,6 @@ div#map_container div.group span {
 	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
 }
 
-div#map_container div.group span:hover	{
-	background-color:		#A3B2FF;
-}
-
 div#map_container div.group > div.group_timeline	{
 	position:				relative;
 	width:					2px;
