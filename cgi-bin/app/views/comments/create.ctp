@@ -38,8 +38,8 @@
 		}).blur(function()	{
 			$('#form_helper').fadeOut('fast');
 		});
-		$("#CommentCreateForm").validationEngine({promptPosition : "topRight", scroll: false});
-		$("#CommentCreateForm").validationEngine('init', {promptPosition : "topRight", scroll: false});
+		$("#CommentAddForm").validationEngine({promptPosition : "topRight", scroll: false});
+		$("#CommentAddForm").validationEngine('init', {promptPosition : "topRight", scroll: false});
 		$('#cancel_button').click(function()	{
 			window.location = 'index';
 		});
