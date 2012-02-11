@@ -775,9 +775,9 @@ setUpControls = (zooms) ->
 			min: 0
 			max: zooms.length - 1
 			slide: (e, ui) -> 
-				$("#geo_zoom_label").text "Geo Zoom: " + zooms[ui.value]
+				$("#geo_zoom_label").text "Geo Zoom: " + zooms[ui.value].name
 				zoomGeographic ui.value
-		$("#geo_zoom_label").text "Geo Zoom: " + zooms[0]
+		$("#geo_zoom_label").text "Geo Zoom: " + zooms[0].name
 	else
 		$("#geo_zoom_label").css("display":"none")
 		#("#geo_zoom_slider").css("display":"none")

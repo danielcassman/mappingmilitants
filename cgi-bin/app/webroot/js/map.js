@@ -984,11 +984,11 @@ setUpControls = function(zooms) {
       min: 0,
       max: zooms.length - 1,
       slide: function(e, ui) {
-        $("#geo_zoom_label").text("Geo Zoom: " + zooms[ui.value]);
+        $("#geo_zoom_label").text("Geo Zoom: " + zooms[ui.value].name);
         return zoomGeographic(ui.value);
       }
     });
-    $("#geo_zoom_label").text("Geo Zoom: " + zooms[0]);
+    $("#geo_zoom_label").text("Geo Zoom: " + zooms[0].name);
   } else {
     $("#geo_zoom_label").css({
       "display": "none"
