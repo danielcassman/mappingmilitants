@@ -1,0 +1,342 @@
+/* reset.css */
+html {margin:0;padding:0;border:0;}
+body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
+article, aside, details, figcaption, figure, dialog, footer, header, hgroup, menu, nav, section {display:block;}
+body {line-height:1.5;background:white;}
+table {border-collapse:separate;border-spacing:0;}
+caption, th, td {text-align:left;font-weight:normal;float:none !important;}
+table, th, td {vertical-align:middle;}
+blockquote:before, blockquote:after, q:before, q:after {content:'';}
+blockquote, q {quotes:"" "";}
+a img {border:none;}
+:focus {outline:0;}
+
+html {font-size:100.01%;overflow:auto;}
+body {font-size:70%;color:#222;background:#fff;font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;overflow:auto;}
+
+div#header	{
+	position:				fixed;
+	top:					0;
+	left:					0;
+	width:					96%;
+	padding:				3px 2%;
+	border-bottom:			1px solid #000;
+	background-color:		#333;
+	color:					#fff;
+	-moz-box-shadow: 0px 2px 4px #666; 
+	-webkit-box-shadow: 0px 2px 4px #666; 
+	box-shadow: 0px 2px 4px #666; 
+
+	z-index:				801;
+}
+
+div#header span.label	{
+	display:				inline-block;
+	margin-left:			10px;
+	padding-top:			6px;
+	width:					230px;
+	overflow:				hidden;
+	font-size:				1.2em;
+}
+
+div#header div.slider	{
+	display:				inline-block;
+	width:					60px;
+	margin:					0 0 0 10px;
+}
+
+div#timeline	{
+	position:				absolute;
+	top:					0;
+	left:					0;
+	width:					70px;
+	background:				#fff;
+	border-right:			5px solid green;
+	text-align:				right;
+	padding:				40px 0;
+	z-index:				800;
+}
+
+div#timeline li	{
+	display:				block;
+	padding:				0 3px 0 0;
+	font-weight:			bold;
+	list-style-type:		none;
+	font-size:				13px;
+	line-height:			15px;
+	max-height:				1em;
+}
+
+div#map_container	{
+	position:				absolute;
+	top:					0;
+	left:					0;
+	z-index:				2;
+	overflow:				auto;
+}
+
+div#map_container div.group	{
+	position:				relative;
+	float:					left;
+	background:				transparent;
+	text-align:				center;
+	z-index:				5;
+}
+
+div#map_container div.group.active	{
+	background:				#transparent url(../img/arrow-down2.png) bottom center no-repeat;
+}
+
+div#map_container div.group span {
+	display:				block;
+	position:				relative;
+	font-size:				12px;
+	line-height:			12px;
+	padding:				3px 5px;
+	margin:					0 auto;
+	cursor:					pointer;
+	z-index:				999;
+	
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+}
+
+div#map_container div.group > div.group_timeline	{
+	position:				relative;
+	width:					2px;
+	background:				#000;
+	margin:					-1px auto;
+	height:					100%;
+	
+	-moz-border-radius: 	5px;
+	-webkit-border-radius:	5px;
+	border-radius:			5px;
+	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+}
+
+div#map_container div.link	{
+	position:				absolute;
+	height:					2px;
+	z-index:				5;
+	cursor:					pointer;
+	z-index:				20;
+}
+
+div.link.all	{
+	border-top:				2px dashed blue;
+	margin-top:				4px;
+}
+
+div.link div.dot	{
+	position:absolute;
+	width:8px;
+	height:8px;
+	top:-5px;
+}
+
+div.link div.dot.left	{left:-4px;}
+div.link div.dot.right{right:-4px;}
+
+div.link.all div.dot	{
+	background:		url(../img/bluedot.png) top left no-repeat;
+}
+
+div.link.aff	{background:#00f;}
+
+div.link.riv	{
+	margin-top:				1px;
+	border-top:				2px dashed orange;
+}
+
+div.link.riv div.dot	{
+	background:				url(../img/orangedot.png) top left no-repeat;
+}
+
+div.link.mer	{background:#000;}
+
+div.link.spl	{background:#000;}
+
+div.link.spl div.split-icon	{
+	position:absolute;
+	width: 45px;
+	height:13px;
+	top:-5px;
+	z-index:15;
+	left:10px;
+	background:transparent url(../img/split.png) top left no-repeat;
+}
+
+div.link div.split-left, div.link div.split-right	{
+	position:		absolute;
+	top:			-3px;
+	width:			6px;
+	height:			10px;
+}
+
+div.link div.split-left	{
+	left:			0;
+	background:		transparent url(../img/arrow-left.png) top left no-repeat;
+}
+
+div.link div.split-right	{
+	right:			0;
+	background:		transparent url(../img/arrow-right.png) top right no-repeat;
+}
+
+div.settings_inactive, div.zoom_inactive, div.group_activity_inactive, div.trace_inactive, div.timeline_inactive, div.umbrella.inactive	{
+	display:		none;
+}
+
+#map_container div.attack	{
+	position:absolute;
+	left: -9px;
+	width:20px;
+	height:20px;
+	background:transparent url(../img/explosiong-orange-20.png) top left no-repeat;
+	z-index:25;
+	cursor:pointer;
+}
+
+#map_container div.leader	{
+	position:absolute;
+	left:-13px;
+	width:25px;
+	height:25px;
+	background:transparent url(../img/person-25.png);
+	z-index:25;
+	cursor:pointer;
+}
+
+div.umbrella	{
+	position:absolute;
+	background-color:#bbb;
+	opacity:.6;
+	z-index:6;
+}
+
+div.umbrella:hover	{
+	opacity:.9;
+	z-index:12;
+}
+
+div.umbrella span	{
+	display:block;
+	position:relative;
+	width:100%;
+	text-align:center;
+	font-size:1.3em;
+	font-weight:bold;
+}
+
+#settings_dialog input, #settings_dialog label	{
+	display:				block;
+	float:					left;
+}
+
+#settings_dialog label	{
+	width:					160px;
+	clear:					right;
+}
+
+div.dialog div.box	{
+	position:				relative;
+	padding:				10px;
+	border:					1px solid #666;
+	margin-bottom:			1.5em;
+	-moz-border-radius: 	5px;
+	-webkit-border-radius:	5px;
+	border-radius:			5px;
+	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+}
+
+div.dialog h2	{
+	font-weight:			bold;
+	font-size:				1.3em;
+}
+
+#settings_dialog div.box:after, #settings_dialog p:after	{
+	content:"\0020";display:block;height:0;clear:both;visibility:hidden;overflow:hidden;
+}
+
+#legend_dialog p.legend-text	{
+	position:				relative;
+	float:					left;
+	width:					160px;
+	clear:					right;
+}
+
+#legend_dialog span.legend-mark-border	{
+	display:				inline-block;
+	width:					45px;
+	margin-top:				10px;
+	margin-right:			15px;
+	padding-bottom:			8px;
+}
+
+#legend_dialog p	{
+	margin-bottom:			.5em;
+}
+
+#legend_dialog span.aff	{
+	border-top:				2px solid blue;
+}
+
+#legend_dialog span.all	{
+	border-top:				2px dashed blue;
+}
+
+#legend_dialog span.mer	{
+	border-top:				2px solid black;
+}
+
+#legend_dialog span.riv	{
+	border-top:				2px dashed orange;
+}
+
+#legend_dialog span.spl	{
+	background:				transparent url(../img/split.png) top left no-repeat;
+	margin-top:				2px;
+	height:					13px;
+	padding-bottom:			5px;
+}
+
+#legend_dialog span.legend-mark-umbrella	{
+	display:				inline-block;
+	background:				#bbb;
+	margin:					5px 0 0;
+	height:					15px;
+	width:					45px;
+	margin-right:			15px;
+}
+
+#legend_dialog span.legend-mark-image	{
+	display:				inline-block;
+	margin:					0 20px 0 15px;
+	width:					25px;
+	height:					25px;
+}
+
+#legend_dialog span.leader	{
+	background:				transparent url(../img/person-25.png) center center no-repeat;
+}
+
+#legend_dialog span.attack	{
+	background:				transparent url(../img/explosiong-orange-20.png) center center no-repeat;
+}
+
+div.legend-mark.umb {background-color:#bbb;}
+div.legend-img		{float:left; margin-right:23px;}
+
+.nav_inactive	{
+	opacity: 0.25;
+	filter: alpha(opacity=25);
+}
+
+/*div#map_container div.group:hover	{
+	background-color: #D6E3FF;
+}*/
