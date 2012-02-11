@@ -759,9 +759,9 @@ addGroupToMap = function(order, group_data, startdate, enddate, container) {
     div.addClass("zoom-" + i);
   }
   buttons = {};
-  if (parseInt(group.dummy, 10) === 0) {
+  if (group.dummy === false) {
     buttons["See Full Profile"] = function() {
-      return window.open("/group/mappingmilitants/cgi-bin/profiles/view/" + group.id);
+      return window.open("/group/mappingmilitants/cgi-bin/groups/view/" + group.id);
     };
   }
   buttons["Trace Group"] = function() {

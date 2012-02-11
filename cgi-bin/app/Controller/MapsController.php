@@ -37,7 +37,7 @@ class MapsController extends AppController {
 		$data['Zoom'] = $map['Zoom'];
 		$this->set('edit', $edit);
 		$groups = $this->Group->find('all', array(
-			'fields'			=>	array('id','name','shortname','startdate','enddate','description'),
+			'fields'			=>	array('id','name','shortname','startdate','enddate','description','dummy'),
 			'conditions'		=>	array("id IN (SELECT group_id FROM map_groups WHERE map_id = $id)")
 		));
 		$this->set('groups', $groups);

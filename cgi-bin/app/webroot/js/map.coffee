@@ -594,9 +594,9 @@ addGroupToMap = (order, group_data, startdate, enddate, container) ->
 	addLeaderToGroup div.children("div"), leader, top for leader in group_data.Leader
 	div.addClass("zoom-" + i) for i in [parseInt(group.min_zoom, 10)..parseInt(group.max_zoom, 10)]
 	buttons = {}
-	if parseInt(group.dummy, 10) is 0
+	if group.dummy is false
 		buttons["See Full Profile"] =->
-				window.open("/group/mappingmilitants/cgi-bin/profiles/view/" + group.id)
+				window.open("/group/mappingmilitants/cgi-bin/groups/view/" + group.id)
 	buttons["Trace Group"] =-> 
 		$("div.link:not(.group" + group.id + ")", "#map_container").addClass "trace_inactive"
 		$("div.link.group" + group.id, "#map_container").removeClass "zoom_inactive"

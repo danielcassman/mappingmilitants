@@ -10,7 +10,7 @@
 		echo $this->Html->script(array(
 			'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js',
 			'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js',
-			'map.js'
+			'map.min.js'
 		));
 		echo $scripts_for_layout
 

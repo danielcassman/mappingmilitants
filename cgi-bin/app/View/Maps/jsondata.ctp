@@ -22,8 +22,8 @@
 		$g['Group']['max_zoom'] = $gd['MapGroup']['max_zoom'];
 		unset($g['Group']['majorattacks']);
 		unset($g['Group']['leadership']);
-		$g['Group']['name'] = stripslashes($g['Group']['name']);
-		$g['Group']['description'] = trim(stripslashes($g['Group']['description']));
+		$g['Group']['name'] = $g['Group']['name'];
+		$g['Group']['description'] = $g['Group']['description'];
 		if($g['Group']['enddate'] == '0000-00-00')
 			$g['Group']['active'] = true;
 		else
