@@ -312,3 +312,7 @@ div.map_box.linked:hover	{
 	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
 	margin-bottom:			2em;
 }
+
+ol li {
+	margin-bottom:			.5em;
+}
