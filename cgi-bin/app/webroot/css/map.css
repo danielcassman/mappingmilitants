@@ -166,7 +166,7 @@ div.link.spl div.split-icon	{
 	width: 45px;
 	height:13px;
 	top:-5px;
-	z-index:15;
+	z-index:21;
 	left:10px;
 	background:transparent url(../img/split.png) top left no-repeat;
 }
