@@ -126,6 +126,11 @@ h2	{
 	margin-bottom:			0;
 }
 
+h2 a:link, h2 a:visited	{
+	color:					#aa0020;
+	text-decoration	:		none;
+}
+
 ol.spaced li	{
 	margin-bottom:			.5em;
 }
@@ -290,4 +295,20 @@ div.map_box.linked:hover	{
 #basic-info th 	{
 	background-color:		#e5ecf9;;
 	width:					100px;
+}
+
+#map-preview	{
+	height:					50px;
+	width:					590px;
+	/*width:				302px;*/
+	padding:				10px 10px 10px 160px;
+	/*margin-left:			59px;*/
+	margin-left:			95px;
+	border:					1px solid black;
+	background:				#FFF url(../img/iraq-preview.jpg) no-repeat;
+	-moz-border-radius: 	5px;
+	-webkit-border-radius:	5px;
+	border-radius:			5px;
+	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+	margin-bottom:			2em;
 }
