@@ -11,7 +11,8 @@ settings = {
   year_height: 0,
   startdate: 0,
   enddate: 0,
-  zooms: []
+  zooms: [],
+  map_id: 0
 };
 
 /*
@@ -181,24 +182,7 @@ addLinkToMap = function(link) {
     "data-group1": link.group1,
     "data-group2": link.group2,
     "data-date": link.date,
-    click: function(e) {
-      var opener;
-      opener = this;
-      if ($(opener).data("dialog_open")) return false;
-      $(opener).data("dialog_open", true);
-      return $("<div/>", {
-        html: processDate(link.date, "e") + ": " + link.description
-      }).dialog({
-        modal: false,
-        title: $("#group-" + link.group1).attr("data-shortname") + " and " + $("#group-" + link.group2).attr("data-shortname") + " " + getLinkType(link.type),
-        width: 300,
-        "min-height": 100,
-        position: [e.pageX - $(window).scrollLeft() - 150, e.pageY - $(window).scrollTop() - 70],
-        beforeClose: function() {
-          return $(opener).data("dialog_open", false);
-        }
-      });
-    }
+    click: linkClickFunction(link)
   }).data("dialog_open", false);
   for (i = 0, _ref = settings.zooms.length; 0 <= _ref ? i < _ref : i > _ref; 0 <= _ref ? i++ : i--) {
     if ($("#group-" + link.group1).hasClass("zoom-" + i) && $("#group-" + link.group2).hasClass("zoom-" + i)) {
@@ -845,18 +829,7 @@ addGroupToMap = function(order, group_data, startdate, enddate, container) {
         "margin-top": -1 * $(this).outerHeight()
       });
     },
-    click: function() {
-      return $("<div/>", {
-        html: group.description
-      }).dialog({
-        title: group.name,
-        modal: true,
-        resizable: false,
-        draggable: false,
-        width: 400,
-        buttons: buttons
-      });
-    }
+    click: groupClickFunction(group, buttons)
   }));
   return container.append(div);
 };

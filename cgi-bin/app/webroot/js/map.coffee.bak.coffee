@@ -148,7 +148,21 @@ addLinkToMap = (link) ->
 		"data-group1": link.group1
 		"data-group2": link.group2
 		"data-date": link.date
-		click: linkClickFunction link
+		click: (e) ->
+			opener = @
+			if $(opener).data("dialog_open")
+				return false;
+			$(opener).data("dialog_open", true)
+			$("<div/>"
+				html: processDate(link.date, "e") + ": " + link.description
+			).dialog
+				modal: false
+				title: $("#group-" + link.group1).attr("data-shortname") + " and " + $("#group-" + link.group2).attr("data-shortname") + " " + getLinkType(link.type)
+				width: 300
+				"min-height": 100
+				position: [e.pageX - $(window).scrollLeft() - 150, e.pageY - $(window).scrollTop() - 70]
+				beforeClose:  ->
+					$(opener).data "dialog_open", false
 	).data("dialog_open", false)
 	for i in [0...settings.zooms.length]
 		if $("#group-" + link.group1).hasClass("zoom-" + i) and $("#group-" + link.group2).hasClass("zoom-" + i)
@@ -647,7 +661,16 @@ addGroupToMap = (order, group_data, startdate, enddate, container) ->
 				"font-size":"12px"
 			$(@).text(group.shortname).css
 				"margin-top": -1 * $(@).outerHeight()
-		click: groupClickFunction group, buttons
+		click: ->
+			$("<div/>"
+				html: group.description
+			).dialog
+				title: group.name
+				modal: true
+				resizable: false
+				draggable: false
+				width: 400
+				buttons: buttons
 	)
 	container.append div
 
