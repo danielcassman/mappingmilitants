@@ -18,7 +18,7 @@
 </div>
 <div class="span-8 last">
 	<h2>Search</h2>
-	<form name="searchform" action="/group/mappingmilitants/cgi-bin/profiles/search" method="get">
+	<form name="searchform" action="/group/mappingmilitants/cgi-bin/groups/search" method="get">
 		<p><input type="text" name="q" id="q" /></p>
 	</form>
 	<p>
