@@ -291,6 +291,11 @@ makeTimeline = function(startyear, endyear, increment, move_divs) {
     }
     fitGroups(false, countVisibleGroups());
     $(".link", "#map_container").each(function() {
+      if (processDate($(this).data('date'), 'y') < startyear || processDate($(this).data('date'), 'y') > endyear) {
+        $(this).addClass("timeline_inactive");
+      } else {
+        $(this).removeClass("timeline_inactive");
+      }
       return $(this).animate({
         top: findDateOnTimeline($(this).attr("data-date"), increment)
       }, settings.ANIMATION_SPEED);
@@ -732,7 +737,9 @@ addGroupToMap = function(order, group_data, startdate, enddate, container) {
   _ref = group_data.Attack;
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     attack = _ref[_i];
-    addAttackToGroup(div.children("div"), attack, top);
+    if (attack.date !== '0000-00-00') {
+      addAttackToGroup(div.children("div"), attack, top);
+    }
   }
   _ref2 = group_data.Leader;
   for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {

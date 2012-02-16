@@ -225,6 +225,10 @@ makeTimeline = (startyear, endyear, increment = 1, move_divs = true)	->
 		fitGroupToTimeline(group, increment, startyear, endyear) for group in $(".group", "#map_container")
 		fitGroups false, countVisibleGroups()
 		$(".link","#map_container").each ->
+			if processDate($(@).data('date') ,'y') < startyear or processDate($(@).data('date') ,'y') > endyear
+				$(@).addClass "timeline_inactive"
+			else
+				$(@).removeClass "timeline_inactive"
 			$(@).animate(
 				top: findDateOnTimeline $(@).attr("data-date"), increment
 			settings.ANIMATION_SPEED
@@ -577,7 +581,9 @@ addGroupToMap = (order, group_data, startdate, enddate, container) ->
 		html: $ "<div/>"
 			class: "group_timeline"
 	)
-	addAttackToGroup div.children("div"), attack, top for attack in group_data.Attack
+	for attack in group_data.Attack
+		if attack.date != '0000-00-00'
+			addAttackToGroup div.children("div"), attack, top
 	addLeaderToGroup div.children("div"), leader, top for leader in group_data.Leader
 	div.addClass("zoom-" + i) for i in [parseInt(group.min_zoom, 10)..parseInt(group.max_zoom, 10)]
 	buttons = {}
