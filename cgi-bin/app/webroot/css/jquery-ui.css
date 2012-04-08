@@ -1,3 +1,6 @@
+/* @override 
+	http://localhost:8888/group/mappingmilitants/cgi-bin/css/jquery-ui.css */
+
 /*
  * jQuery UI CSS Framework 1.8.14
  *
@@ -389,3 +392,44 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 .ui-slider-vertical .ui-slider-range { left: 0; width: 100%; }
 .ui-slider-vertical .ui-slider-range-min { bottom: 0; }
 .ui-slider-vertical .ui-slider-range-max { top: 0; }
+
+/* JQUERY UI OVERRIDES */
+.ui-widget-overlay {
+	background: black;
+	opacity: 0.4;
+}
+.ui-dialog {
+	padding: 0px;
+}
+.ui-dialog-titlebar {
+	border-radius: 0px;
+	border: 0px;
+	height: auto;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#b5dcf1), to(#9cc5e5));
+	background-image: -moz-linear-gradient(270deg, #b5dcf1 0%, #9cc5e5 100%);
+	border-bottom: 1px solid #417ba0;
+}
+	.ui-dialog-title {
+		font-size: 14px;
+		text-shadow: 0 1px 0 rgb(255, 255, 255);
+	}
+	
+.ui-button, .ui-button.ui-state-default {
+	border-radius: 3px;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#c0c0c0));
+	background-image: -moz-linear-gradient(270deg, #f5f5f5 0%, #c0c0c0 100%);
+	border: 1px solid #6f6f6f;
+	color: #474747;
+}
+
+.ui-button:active, .ui-button.ui-state-default:active {
+	color: #fff;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#666666), to(#999999));
+	background-image: -moz-linear-gradient(270deg, #666666 0%, #999999 100%);
+}
+
+.ui-button:hover, .ui-button.ui-state-default:hover {
+	-moz-box-shadow: 0 1px 7px #ffffff;
+	-webkit-box-shadow: 0 1px 7px #ffffff;
+	box-shadow: 0 1px 7px #ffffff;
+}

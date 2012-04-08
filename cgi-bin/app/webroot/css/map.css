@@ -1,3 +1,6 @@
+/* @override 
+	http://localhost:8888/group/mappingmilitants/cgi-bin/css/map.css */
+
 /* reset.css */
 html {margin:0;padding:0;border:0;}
 body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
@@ -12,22 +15,31 @@ a img {border:none;}
 :focus {outline:0;}
 
 html {font-size:100.01%;overflow:auto;}
-body {font-size:70%;color:#222;background:#fff;font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;overflow:auto;}
+body {
+	color:#222;
+	overflow:auto;
+	font: 70% "Helvetica Neue", Arial, Helvetica, sans-serif;
+	background: url(../img/bg.jpg) no-repeat fixed center top #fff;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
 
 div#header	{
 	position:				fixed;
 	top:					0;
 	left:					0;
-	width:					96%;
+	width:					100%;
 	padding:				3px 2%;
 	border-bottom:			1px solid #000;
-	background-color:		#333;
 	color:					#fff;
 	-moz-box-shadow: 0px 2px 4px #666; 
 	-webkit-box-shadow: 0px 2px 4px #666; 
 	box-shadow: 0px 2px 4px #666; 
 
 	z-index:				801;
+	background: url(../img/texture-linen-dark.png) #333;
 }
 
 div#header span.label	{
@@ -49,12 +61,19 @@ div#timeline	{
 	position:				absolute;
 	top:					0;
 	left:					0;
-	width:					70px;
-	background:				#fff;
-	border-right:			5px solid green;
-	text-align:				right;
+	width:					50px;
+	height: 100%;
+	text-align:				center;
 	padding:				40px 0;
 	z-index:				800;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.79);
+	/*-moz-box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.59);
+	-webkit-box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.59);
+	box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.59);*/
+	background: url(../img/texture-linen.png) rgb(171, 173, 179);
+	-moz-box-shadow: inset -2px -2px 3px rgba(0, 0, 0, 0.13), 1px 1px 10px #adadad;
+	-webkit-box-shadow: inset -2px -2px 3px rgba(0, 0, 0, 0.13), 1px 1px 10px #adadad;
+	box-shadow: inset -2px -2px 3px rgba(0, 0, 0, 0.13), 1px 1px 10px #adadad;
 }
 
 div#timeline li	{
@@ -90,13 +109,13 @@ div#map_container div.group.active	{
 div#map_container div.group span {
 	display:				block;
 	position:				relative;
-	font-size:				12px;
-	line-height:			12px;
+	font-size: 12px;
+	line-height: 12px;
 	padding:				3px 5px;
 	margin:					0 auto;
 	cursor:					pointer;
 	z-index:				999;
-	
+	background-color: white;
 	-webkit-border-top-left-radius: 5px;
 	-webkit-border-top-right-radius: 5px;
 	-moz-border-radius-topleft: 5px;
@@ -104,12 +123,15 @@ div#map_container div.group span {
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+	-moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.41);
+	-webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.41);
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.41);
 }
 
 div#map_container div.group > div.group_timeline	{
 	position:				relative;
-	width:					2px;
-	background:				#000;
+	width:					3px;
+	background: url(../img/stripes.png) #000;
 	margin:					-1px auto;
 	height:					100%;
 	
@@ -117,6 +139,9 @@ div#map_container div.group > div.group_timeline	{
 	-webkit-border-radius:	5px;
 	border-radius:			5px;
 	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+	-moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.41);
+	-webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.41);
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.41);
 }
 
 div#map_container div.link	{
@@ -245,18 +270,18 @@ div.umbrella span	{
 
 div.dialog div.box	{
 	position:				relative;
-	padding:				10px;
-	border:					1px solid #666;
-	margin-bottom:			1.5em;
-	-moz-border-radius: 	5px;
-	-webkit-border-radius:	5px;
-	border-radius:			5px;
+	padding:				16px 8px;
+	border-top: 1px solid #c7c7c7;
 	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+}
+div.dialog div.box:first-of-type	{
+	border-top: 0;
 }
 
 div.dialog h2	{
 	font-weight:			bold;
 	font-size:				1.3em;
+	margin-bottom: 8px;
 }
 
 #settings_dialog div.box:after, #settings_dialog p:after	{
