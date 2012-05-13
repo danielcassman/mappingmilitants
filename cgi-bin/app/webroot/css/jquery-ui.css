@@ -400,6 +400,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 }
 .ui-dialog {
 	padding: 0px;
+	box-shadow: 1px 1px 8px #333;
 }
 .ui-dialog-titlebar {
 	border-radius: 0px;
