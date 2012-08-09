@@ -179,15 +179,14 @@ addLinkToMap = (link) ->
  ###
 getTimelineLabel = (date, increment) ->
 	if(increment is .5)
-		return Math.floor(date) + " " + (if Math.floor(date) is date then "Jan" else "Jun")
+		return (if Math.floor(date) is date then Math.floor(date) + " Jan" else "Jun")
 	else if increment is .25
 		switch (date - Math.floor(date))
-			when 0 then month = "Jan"
-			when .25 then month = "Apr"
-			when .5 then month = "Jul"
-			when .75 then month = "Oct"
-			else month = false
-		return Math.floor(date) + " " + month
+			when 0 then return Math.floor(date) + " Jan"
+			when .25 then return "Apr"
+			when .5 then return "Jul"
+			when .75 then return "Oct"
+			else return false
 	return false
 
 ###

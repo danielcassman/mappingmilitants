@@ -25,9 +25,12 @@ settings = {
  * @param top: the absolute position (in pixels) of the top of the group div
 */
 
+
 sizeLink = function(link) {
   var adjust, left_first, left_group, right_group;
-  if (!(link != null)) return false;
+  if (!(link != null)) {
+    return false;
+  }
   left_first = true;
   if ($("#group-" + $(link).attr("data-group1")).position().left < $("#group-" + $(link).attr("data-group2")).position().left) {
     left_group = $("#group-" + $(link).attr("data-group1"));
@@ -53,8 +56,9 @@ sizeLink = function(link) {
  * @param increment: the timeline increment (in years)
 */
 
+
 fitUmbrella = function(div, increment) {
-  var groups, groups_on_map, i, left, right, top, _ref;
+  var groups, groups_on_map, i, left, right, top, _i, _ref;
   if (processDate($(div).attr("data-startdate"), "y") > settings.enddate || ($(div).attr("data-enddate") !== "0000-00-00" && processDate($(div).attr("data-enddate"), "y") < settings.startdate)) {
     $(div).addClass("inactive");
     return false;
@@ -63,7 +67,7 @@ fitUmbrella = function(div, increment) {
   left = Math.pow(2, 53);
   right = 0;
   groups_on_map = 0;
-  for (i = 0, _ref = groups.length; 0 <= _ref ? i < _ref : i > _ref; 0 <= _ref ? i++ : i--) {
+  for (i = _i = 0, _ref = groups.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
     if (!(groups[i] != null) || $("#group-" + groups[i]).css("display") === "none") {
       continue;
     }
@@ -96,12 +100,15 @@ fitUmbrella = function(div, increment) {
  * allow for the group divs to be animated into place.
 */
 
+
 sizeLinksOnMap = function() {
   if ($(".group", "#map_container").is(":animated")) {
     return setTimeout(sizeLinksOnMap, settings.ANIMATION_SPEED);
   } else {
     $(".link", "#map_container").each(function() {
-      if ($(this).css("display") !== "none") return sizeLink(this);
+      if ($(this).css("display") !== "none") {
+        return sizeLink(this);
+      }
     });
     return $("div.umbrella", "#map_container").each(function() {
       fitUmbrella($(this), settings.resolution_values[$("#time_zoom_slider").slider("value")]);
@@ -117,6 +124,7 @@ sizeLinksOnMap = function() {
  *
  * @param zoom: the desired zoom level [INTEGER]
 */
+
 
 zoomGeographic = function(zoom) {
   $(".group:not(.zoom-" + zoom + ")", "div#map_container").addClass("zoom_inactive");
@@ -135,6 +143,7 @@ zoomGeographic = function(zoom) {
  * @param type: the abbreviated link type (i.e. "all" for allies)
  * @return: the full name of the link typ (i.e. "Allies")
 */
+
 
 getLinkType = function(type) {
   switch (type) {
@@ -161,8 +170,9 @@ getLinkType = function(type) {
  * @param link: the link JSON object
 */
 
+
 addLinkToMap = function(link) {
-  var active, div, i, left_first, _ref;
+  var active, div, i, left_first, _i, _ref;
   left_first = false;
   active = "active-both";
   if ($("#group-" + link.group1).position().left < $("#group-" + link.group2).position().left) {
@@ -184,7 +194,7 @@ addLinkToMap = function(link) {
     "data-date": link.date,
     click: linkClickFunction(link)
   }).data("dialog_open", false);
-  for (i = 0, _ref = settings.zooms.length; 0 <= _ref ? i < _ref : i > _ref; 0 <= _ref ? i++ : i--) {
+  for (i = _i = 0, _ref = settings.zooms.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
     if ($("#group-" + link.group1).hasClass("zoom-" + i) && $("#group-" + link.group2).hasClass("zoom-" + i)) {
       div.addClass("zoom-" + i);
     }
@@ -217,28 +227,23 @@ addLinkToMap = function(link) {
  * @return: a label of the form "Jan 2000"
 */
 
+
 getTimelineLabel = function(date, increment) {
-  var month;
   if (increment === .5) {
-    return Math.floor(date) + " " + (Math.floor(date) === date ? "Jan" : "Jun");
+    return (Math.floor(date) === date ? Math.floor(date) + " Jan" : "Jun");
   } else if (increment === .25) {
     switch (date - Math.floor(date)) {
       case 0:
-        month = "Jan";
-        break;
+        return Math.floor(date) + " Jan";
       case .25:
-        month = "Apr";
-        break;
+        return "Apr";
       case .5:
-        month = "Jul";
-        break;
+        return "Jul";
       case .75:
-        month = "Oct";
-        break;
+        return "Oct";
       default:
-        month = false;
+        return false;
     }
-    return Math.floor(date) + " " + month;
   }
   return false;
 };
@@ -255,13 +260,18 @@ getTimelineLabel = function(date, increment) {
  *   to be moved into place.
 */
 
+
 makeTimeline = function(startyear, endyear, increment, move_divs) {
-  var date_list, group, i, label, num_ticks, _i, _len, _ref;
-  if (increment == null) increment = 1;
-  if (move_divs == null) move_divs = true;
+  var date_list, group, i, label, num_ticks, _i, _j, _len, _ref;
+  if (increment == null) {
+    increment = 1;
+  }
+  if (move_divs == null) {
+    move_divs = true;
+  }
   num_ticks = Math.floor((endyear - startyear) / increment + 1);
   date_list = $("<ul/>");
-  for (i = startyear; startyear <= endyear ? i <= endyear : i >= endyear; i += increment) {
+  for (i = _i = startyear; startyear <= endyear ? _i <= endyear : _i >= endyear; i = _i += increment) {
     if (increment > 1) {
       label = i > endyear ? endyear : i;
     } else if (increment < 1) {
@@ -285,8 +295,8 @@ makeTimeline = function(startyear, endyear, increment, move_divs) {
   }
   if (move_divs) {
     _ref = $(".group", "#map_container");
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      group = _ref[_i];
+    for (_j = 0, _len = _ref.length; _j < _len; _j++) {
+      group = _ref[_j];
       fitGroupToTimeline(group, increment, startyear, endyear);
     }
     fitGroups(false, countVisibleGroups());
@@ -314,6 +324,7 @@ makeTimeline = function(startyear, endyear, increment, move_divs) {
  * @param endyear: the map end year
 */
 
+
 setUpTimeline = function(startyear, endyear) {
   var container;
   container = $("<div/>", {
@@ -337,6 +348,7 @@ setUpTimeline = function(startyear, endyear) {
  * @param umbrella: the JSON object for the umbrella to add.
 */
 
+
 addUmbrellaToMap = function(umbrella) {
   var div;
   div = $("<div/>", {
@@ -349,7 +361,9 @@ addUmbrellaToMap = function(umbrella) {
     "data-enddate": umbrella.enddate,
     click: function(e) {
       var opener;
-      if ($(this).data("dialog_open")) return false;
+      if ($(this).data("dialog_open")) {
+        return false;
+      }
       $(this).data("dialog_open", true);
       opener = this;
       return $("<div/>", {
@@ -377,9 +391,12 @@ addUmbrellaToMap = function(umbrella) {
  * @param enddate: the map's initial end date
 */
 
+
 setUpMapArea = function(groups, links, umbrellas, startdate, enddate) {
-  var container, i, link, umbrella, _i, _j, _len, _len2, _ref, _results;
-  if (!(groups != null) || !(links != null)) return false;
+  var container, i, link, umbrella, _i, _j, _k, _len, _len1, _ref, _results;
+  if (!(groups != null) || !(links != null)) {
+    return false;
+  }
   container = $("<div/>", {
     id: "map_container",
     css: {
@@ -387,7 +404,7 @@ setUpMapArea = function(groups, links, umbrellas, startdate, enddate) {
       top: $("#header").outerHeight()
     }
   });
-  for (i = 0, _ref = groups.length; 0 <= _ref ? i < _ref : i > _ref; 0 <= _ref ? i++ : i--) {
+  for (i = _i = 0, _ref = groups.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
     addGroupToMap(i, groups[i], startdate, enddate, container);
   }
   $("body").append(container);
@@ -395,8 +412,8 @@ setUpMapArea = function(groups, links, umbrellas, startdate, enddate) {
   $("div.group.active", "#map_container").each(function() {
     return $(this).height($(this).height() + $("li", "#timeline").first().outerHeight() + (parseInt($("#timeline").css("padding-bottom"), 10) - settings.SCROLL_BAR_WIDTH));
   });
-  for (_i = 0, _len = links.length; _i < _len; _i++) {
-    link = links[_i];
+  for (_j = 0, _len = links.length; _j < _len; _j++) {
+    link = links[_j];
     addLinkToMap(link.Link);
   }
   $(".link.all, .link.riv", "#map_container").each(function() {
@@ -407,8 +424,8 @@ setUpMapArea = function(groups, links, umbrellas, startdate, enddate) {
     }));
   });
   _results = [];
-  for (_j = 0, _len2 = umbrellas.length; _j < _len2; _j++) {
-    umbrella = umbrellas[_j];
+  for (_k = 0, _len1 = umbrellas.length; _k < _len1; _k++) {
+    umbrella = umbrellas[_k];
     _results.push(addUmbrellaToMap(umbrella));
   }
   return _results;
@@ -420,6 +437,7 @@ setUpMapArea = function(groups, links, umbrellas, startdate, enddate) {
  * Properly aligns the spans in the group divs so that they are even with the
  * top of the group timeline.
 */
+
 
 fixGroupNames = function() {
   return $("span", ".group").each(function() {
@@ -437,6 +455,7 @@ fixGroupNames = function() {
  * @param num_groups: the number of visible groups. Usually can be retrieved
  *   through countVisibleGroups.
 */
+
 
 fitGroups = function(animate, num_groups) {
   var group_width;
@@ -460,6 +479,7 @@ fitGroups = function(animate, num_groups) {
  * @param m: the number of the month (1-12)
  * @return: the English month (i.e. "January")
 */
+
 
 numberToMonth = function(m) {
   switch (m) {
@@ -501,10 +521,17 @@ numberToMonth = function(m) {
  * @return: a string; either just the year or "January 2000"
 */
 
+
 englishDate = function(d) {
-  if (!(d != null)) return false;
-  if (d[0] === '0000') return 'Unknown';
-  if (d[0] === '0001') return 'Current';
+  if (!(d != null)) {
+    return false;
+  }
+  if (d[0] === '0000') {
+    return 'Unknown';
+  }
+  if (d[0] === '0001') {
+    return 'Current';
+  }
   if (d[1] === "00") {
     return d[0];
   } else {
@@ -525,9 +552,12 @@ englishDate = function(d) {
  *   if e: the English date as "January 2000"
 */
 
+
 processDate = function(d, part) {
   d = d.split("-");
-  if (!(d instanceof Array)) return false;
+  if (!(d instanceof Array)) {
+    return false;
+  }
   switch (part) {
     case "y":
       return parseInt(d[0], 10);
@@ -555,15 +585,26 @@ processDate = function(d, part) {
  *   given date.
 */
 
+
 findDateOnTimeline = function(date, increment) {
   var closest_year, month, year;
-  if (increment == null) increment = 1;
+  if (increment == null) {
+    increment = 1;
+  }
   year = processDate(date, "y");
   month = processDate(date, "m");
-  if (month === 0) month = 1;
-  if (year === 0) year = settings.enddate;
-  if (year > settings.enddate) year = settings.enddate;
-  if (year < settings.startdate) year = settings.startdate;
+  if (month === 0) {
+    month = 1;
+  }
+  if (year === 0) {
+    year = settings.enddate;
+  }
+  if (year > settings.enddate) {
+    year = settings.enddate;
+  }
+  if (year < settings.startdate) {
+    year = settings.startdate;
+  }
   if (increment === 1) {
     closest_year = year;
   } else if (increment < 1) {
@@ -586,9 +627,12 @@ findDateOnTimeline = function(date, increment) {
  * @param animate: boolean indicating whether to animate the group into place
 */
 
+
 fitGroupToTimeline = function(div, increment, startyear, endyear, animate) {
   var top;
-  if (animate == null) animate = true;
+  if (animate == null) {
+    animate = true;
+  }
   if ((processDate($(div).attr("data-enddate"), "y") < startyear && processDate($(div).attr("data-enddate"), "y") !== 0) || processDate($(div).attr("data-startdate"), "y") > endyear) {
     $(div).addClass("timeline_inactive");
     $("div.link.group" + $(div).attr("id").substring(6)).addClass("timeline_inactive");
@@ -622,6 +666,7 @@ fitGroupToTimeline = function(div, increment, startyear, endyear, animate) {
  * @param top: the absolute position (in pixels) of the top of the group div
 */
 
+
 addLeaderToGroup = function(div, leader, top) {
   var date, end, html, start;
   end = false;
@@ -638,7 +683,9 @@ addLeaderToGroup = function(div, leader, top) {
   } else {
     return false;
   }
-  if (date === "?" || date.toLowerCase() === "unknown") return false;
+  if (date === "?" || date.toLowerCase() === "unknown") {
+    return false;
+  }
   html = "<p>" + processDate(leader.startdate, "e") + " - " + processDate(leader.enddate, "e") + "</p><p>" + leader.description + "</p>";
   return $(div).append($("<div/>", {
     "class": "leader",
@@ -649,7 +696,9 @@ addLeaderToGroup = function(div, leader, top) {
     click: function(e) {
       var opener;
       opener = this;
-      if ($(opener).data("dialog_open")) return false;
+      if ($(opener).data("dialog_open")) {
+        return false;
+      }
       $(opener).data("dialog_open", true);
       return $("<div/>", {
         html: html
@@ -674,6 +723,7 @@ addLeaderToGroup = function(div, leader, top) {
  * @param top: the absolute position (in pixels) of the top of the group div
 */
 
+
 addAttackToGroup = function(div, attack, top) {
   return $(div).append($("<div/>", {
     "class": "attack",
@@ -684,7 +734,9 @@ addAttackToGroup = function(div, attack, top) {
     click: function(e) {
       var opener;
       opener = this;
-      if ($(opener).data("dialog_open")) return false;
+      if ($(opener).data("dialog_open")) {
+        return false;
+      }
       $(opener).data("dialog_open", true);
       return $("<div/>", {
         html: "<p><b>" + processDate(attack.date, "e") + ":</b> " + attack.description + (attack.casualties != null ? " (" + attack.casualties + ")" : "") + ".</p>"
@@ -711,9 +763,12 @@ addAttackToGroup = function(div, attack, top) {
  *   should be added
 */
 
+
 addGroupToMap = function(order, group_data, startdate, enddate, container) {
-  var attack, buttons, div, group, i, leader, start_year, top, _i, _j, _len, _len2, _ref, _ref2, _ref3, _ref4;
-  if (!(group_data != null) || !(container != null)) return false;
+  var attack, buttons, div, group, i, leader, start_year, top, _i, _j, _k, _len, _len1, _ref, _ref1, _ref2, _ref3;
+  if (!(group_data != null) || !(container != null)) {
+    return false;
+  }
   group = group_data.Group;
   start_year = processDate(group.startdate, "y") >= startdate ? group.startdate : startdate + "-00-00";
   top = findDateOnTimeline(start_year);
@@ -741,12 +796,12 @@ addGroupToMap = function(order, group_data, startdate, enddate, container) {
       addAttackToGroup(div.children("div"), attack, top);
     }
   }
-  _ref2 = group_data.Leader;
-  for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
-    leader = _ref2[_j];
+  _ref1 = group_data.Leader;
+  for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+    leader = _ref1[_j];
     addLeaderToGroup(div.children("div"), leader, top);
   }
-  for (i = _ref3 = parseInt(group.min_zoom, 10), _ref4 = parseInt(group.max_zoom, 10); _ref3 <= _ref4 ? i <= _ref4 : i >= _ref4; _ref3 <= _ref4 ? i++ : i--) {
+  for (i = _k = _ref2 = parseInt(group.min_zoom, 10), _ref3 = parseInt(group.max_zoom, 10); _ref2 <= _ref3 ? _k <= _ref3 : _k >= _ref3; i = _ref2 <= _ref3 ? ++_k : --_k) {
     div.addClass("zoom-" + i);
   }
   buttons = {};
@@ -756,18 +811,22 @@ addGroupToMap = function(order, group_data, startdate, enddate, container) {
     };
   }
   buttons["Trace Group"] = function() {
-    var c, class_attr, link, other_group, _k, _l, _len3, _len4, _ref5;
+    var c, class_attr, link, other_group, _l, _len2, _len3, _m, _ref4;
     $("div.link:not(.group" + group.id + ")", "#map_container").addClass("trace_inactive");
     $("div.link.group" + group.id, "#map_container").removeClass("zoom_inactive");
     $("#group-" + group.id).removeClass("zoom_inactive").addClass("trace_active");
-    _ref5 = $("div.link:not(.trace_inactive)", "#map_container");
-    for (_k = 0, _len3 = _ref5.length; _k < _len3; _k++) {
-      link = _ref5[_k];
+    _ref4 = $("div.link:not(.trace_inactive)", "#map_container");
+    for (_l = 0, _len2 = _ref4.length; _l < _len2; _l++) {
+      link = _ref4[_l];
       class_attr = $(link).attr("class").split(" ");
-      for (_l = 0, _len4 = class_attr.length; _l < _len4; _l++) {
-        c = class_attr[_l];
-        if (c.indexOf("group") === -1) continue;
-        if (c === "group" + group.id) continue;
+      for (_m = 0, _len3 = class_attr.length; _m < _len3; _m++) {
+        c = class_attr[_m];
+        if (c.indexOf("group") === -1) {
+          continue;
+        }
+        if (c === "group" + group.id) {
+          continue;
+        }
         other_group = c.substring(5);
         $("#group-" + other_group).removeClass("zoom_inactive").addClass("trace_active");
       }
@@ -795,17 +854,21 @@ addGroupToMap = function(order, group_data, startdate, enddate, container) {
   div.prepend($("<span/>", {
     text: group.shortname,
     mouseenter: function() {
-      var c, class_attr, id, link, other_group, _k, _l, _len3, _len4, _ref5;
+      var c, class_attr, id, link, other_group, _l, _len2, _len3, _m, _ref4;
       id = $(this).parent().data("id");
       $("div.link:not(.group" + id + ")", "#map_container").addClass("nav_inactive");
-      _ref5 = $("div.link:not(.nav_inactive)", "#map_container");
-      for (_k = 0, _len3 = _ref5.length; _k < _len3; _k++) {
-        link = _ref5[_k];
+      _ref4 = $("div.link:not(.nav_inactive)", "#map_container");
+      for (_l = 0, _len2 = _ref4.length; _l < _len2; _l++) {
+        link = _ref4[_l];
         class_attr = $(link).attr("class").split(" ");
-        for (_l = 0, _len4 = class_attr.length; _l < _len4; _l++) {
-          c = class_attr[_l];
-          if (c.indexOf("group") === -1) continue;
-          if (c === "group" + id) continue;
+        for (_m = 0, _len3 = class_attr.length; _m < _len3; _m++) {
+          c = class_attr[_m];
+          if (c.indexOf("group") === -1) {
+            continue;
+          }
+          if (c === "group" + id) {
+            continue;
+          }
           other_group = c.substring(5);
           $("#group-" + other_group).addClass("nav_active");
         }
@@ -848,8 +911,9 @@ addGroupToMap = function(order, group_data, startdate, enddate, container) {
  * starts a timeout to update the progress bar at set increments.
 */
 
+
 progressBar = function() {
-  var i, updateProgressBar, _results;
+  var i, updateProgressBar, _i, _results;
   $("<div/>", {
     id: "progress_dialog",
     html: "<p>Please wait. The map is loading.</p><p>&nbsp;</p><div id=\"progress_bar\"></div>",
@@ -873,7 +937,7 @@ progressBar = function() {
     return $("#progress_bar").progressbar("value", $("#progress_bar").progressbar("value") + 10);
   };
   _results = [];
-  for (i = 1; i <= 4; i++) {
+  for (i = _i = 1; _i <= 4; i = ++_i) {
     _results.push(setTimeout(updateProgressBar, 500 * (i + 1)));
   }
   return _results;
@@ -887,13 +951,16 @@ progressBar = function() {
  * @return: the integer number of groups visible in the map area.
 */
 
+
 countVisibleGroups = function() {
   var count, group, _i, _len, _ref;
   count = 0;
   _ref = $("div.group", "#map_container");
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     group = _ref[_i];
-    if ($(group).css("display") !== "none") count++;
+    if ($(group).css("display") !== "none") {
+      count++;
+    }
   }
   return count;
 };
@@ -906,9 +973,12 @@ countVisibleGroups = function() {
  * @param zooms: an array containing the English labels for the geographic zoom.
 */
 
+
 setUpControls = function(zooms) {
   var n, resolutions;
-  if (!(zooms != null)) return false;
+  if (!(zooms != null)) {
+    return false;
+  }
   $("#legend_button").click(function() {
     return $("#legend_dialog").dialog({
       title: "Legend",

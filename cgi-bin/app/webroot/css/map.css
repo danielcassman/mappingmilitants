@@ -67,9 +67,6 @@ div#timeline	{
 	padding:				40px 0;
 	z-index:				800;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.79);
-	/*-moz-box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.59);
-	-webkit-box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.59);
-	box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.59);*/
 	background: url(../img/texture-linen.png) rgb(171, 173, 179);
 	-moz-box-shadow: inset -2px -2px 3px rgba(0, 0, 0, 0.13), 1px 1px 10px #adadad;
 	-webkit-box-shadow: inset -2px -2px 3px rgba(0, 0, 0, 0.13), 1px 1px 10px #adadad;
@@ -78,12 +75,13 @@ div#timeline	{
 
 div#timeline li	{
 	display:				block;
-	padding:				0 3px 0 0;
+	padding:				0 5px 0 0;
 	font-weight:			bold;
 	list-style-type:		none;
 	font-size:				13px;
 	line-height:			15px;
 	max-height:				1em;
+	text-align:				right;
 }
 
 div#map_container	{
