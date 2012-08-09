@@ -1,8 +1,0 @@
-<IfModule mod_rewrite.c>
-   RewriteEngine on
-   RedirectMatch 301 /profiles/view/(.*) http://www.stanford.edu/group/mappingmilitants/cgi-bin/groups/view/$1
-   RedirectMatch 301 /profiles http://www.stanford.edu/group/mappingmilitants/cgi-bin/groups
-   RewriteBase    /group/mappingmilitants/cgi-bin
-   RewriteRule    ^$ app/webroot/    [L]
-   RewriteRule    (.*) app/webroot/$1 [L]
-</IfModule>
