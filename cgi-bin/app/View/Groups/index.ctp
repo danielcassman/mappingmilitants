@@ -14,7 +14,7 @@
 <div class="span-15 colborder">
 	<?php foreach($maps as $name => $var): ?>
 		<h2><?php echo $name; ?></h2>
-		<table class="tablesorter" border="0" id="profile_table">
+		<table class="tablesorter" border="0">
 			<thead>
 				<tr>
 					<th>Name</th>
@@ -49,6 +49,6 @@
 </div>
 <script language="Javascript" type="text/javascript">
 	$(document).ready(function()	{
-		$('#profile_table').tablesorter( {sortList: [[0,0]]} );
+		$('table.tablesorter').tablesorter( {sortList: [[0,0]]} );
 	});
 </script>
