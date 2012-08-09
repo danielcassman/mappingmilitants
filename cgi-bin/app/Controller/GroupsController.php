@@ -3,9 +3,17 @@ class GroupsController extends AppController {
 	public $name = 'Groups';
 		
 	function index()	{
-		$this->set('title_for_layout', 'Groups | Mapping Militant Organizations');
-		$this->set('profiles', $this->Group->find('all', array(
+		$this->set('title_for_layout', 'Profiles | Mapping Militant Organizations');
+		$this->set('iraq', $this->Group->find('all', array(
 			'conditions'		=>	array("id IN (SELECT group_id FROM map_groups WHERE map_id = 3)", "dummy=0"),
+			'order'				=>	'name'
+		)));
+		$this->set('afpak', $this->Group->find('all', array(
+			'conditions'		=>	array("id IN (SELECT group_id FROM map_groups WHERE map_id = 13)", "dummy=0"),
+			'order'				=>	'name'
+		)));
+		$this->set('italy', $this->Group->find('all', array(
+			'conditions'		=>	array("id IN (SELECT group_id FROM map_groups WHERE map_id = 15)", "dummy=0"),
 			'order'				=>	'name'
 		)));
 	}

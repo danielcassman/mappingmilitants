@@ -3,27 +3,31 @@
 	$this->Html->script(array('http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js','jquery.tablesorter.min'), array('inline'=>false));
 	$this->Html->css('tablesort.css', 'stylesheet', array('inline'=>false));
 	echo $this->Html->css('buttons','stylesheet',array('inline'=>false));
+	$maps = array("Iraq" => $iraq, "Italy" => $italy,  "Pakistan (UN Designated)" => $afpak);
 ?>
 <h1 class="span-24">Profiles</h1>
 <div class="span-15 colborder">
-	<table class="tablesorter" border="0" id="profile_table">
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Founded</th>
-			<th>Disbanded</th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php foreach($profiles as $profile): ?>
-		<tr>
-			<td><?php echo $this->Html->link(stripslashes($profile['Group']['name']), array('controller' => 'groups', 'action' => 'view', $profile['Group']['id'])); ?></td>
-			<td><?php echo substr($profile['Group']['startdate'], 0, 4); ?></td>
-			<td><?php echo ($profile['Group']['enddate'] == '0000-00-00' ? 'Active' : substr($profile['Group']['enddate'], 0, 4)); ?></td>
-		</tr>
-		<?php endforeach; ?>
-	</tbody>
-</table>
+	<?php foreach($maps as $name => $var): ?>
+		<h2><?php echo $name; ?></h2>
+		<table class="tablesorter" border="0" id="profile_table">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Founded</th>
+					<th>Disbanded</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($var as $profile): ?>
+				<tr>
+					<td><?php echo $this->Html->link(stripslashes($profile['Group']['name']), array('controller' => 'groups', 'action' => 'view', $profile['Group']['id'])); ?></td>
+					<td><?php echo substr($profile['Group']['startdate'], 0, 4); ?></td>
+					<td><?php echo ($profile['Group']['enddate'] == '0000-00-00' ? 'Active' : substr($profile['Group']['enddate'], 0, 4)); ?></td>
+				</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+	<?php endforeach; ?>
 </div>
 <div class="span-8 last">
 	<h2>Search</h2>

@@ -34,7 +34,7 @@
 	<div id="wrap" class="container">
 		<ul id="nav" class="clearfix">
 			<li><?php echo $this->Html->link('Home','/'); ?></li>
-			<li><?php echo $this->Html->link('Map',array('controller'=>'maps','action'=>'iraq')); ?></li>
+			<li><?php echo $this->Html->link('Maps',array('controller'=>'maps','action'=>'index')); ?></li>
 			<li><?php echo $this->Html->link('Profiles',array('controller'=>'groups','action'=>'index')); ?></li>
 			<li><?php echo $this->Html->link('About',array('controller'=>'pages','action'=>'about')); ?></li>
 			<li><?php echo $this->Html->link('Technology',array('controller'=>'pages','action'=>'technology')); ?></li>

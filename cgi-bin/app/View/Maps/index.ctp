@@ -1,27 +1,35 @@
 <!-- File: index.ctp -->
-<?php $this->Html->script(array("http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"), array("inline" => false)); ?>
-<div class="map_box">
-	<h2>Maps</h2>
-	<p>The project is developing a series of interactive diagrams that “map” relationships among groups and show how those relationships change over time. The user can change map settings to display different features (e.g., leadership changes), adjust the time scale, and trace individual groups. At present, only the map of Iraq is available for public view, but maps of Italy, Colombia, Somalia, Algeria, Yemen, Israel-Palestine, Turkey, and Pakistan are in progress. The Iraq map shows both groups internal to Iraq and regional or global groups with activities in Iraq (the map can be adjusted to show “domestic” and “external” interactions).</p>
-	<p>This page lists all of the maps that are available to the public.</p>
+<?php
+	$this->Html->script(array("http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"), array("inline" => false));
+	echo $this->Html->css('buttons','stylesheet',array('inline'=>false));
+?>
+<div class="span-15 colborder">
+	<h1>Maps</h1>
+	<p>This page contains descriptions of and links to each of the interactive diagrams we have published.</p>
+	<?php foreach($maps as $map): ?>
+		<div id="<?php echo $map['Map']['url']; ?>" class="map_box linked" style="background-image:url(<?php echo $this->webroot; ?>img/<?php echo $map['Map']['url']; ?>-sm.jpg)">
+			<h2><?php echo $map['Map']['name']; ?></h2>
+			<p><?php echo $map['Map']['description']; ?></p>
+		</div>
+	<?php endforeach; ?>
 </div>
-<div id="map_link_pakistan_un" class="map_box linked">
-	<h2>Pakistan</h2>
-	<?php echo $this->Html->image("pakistan.jpg"); ?>
-	<p>This map includes all organizations operating in Pakistan that have been designated terrorist organizations by the United Nations.</p>
-</div>
-<div id="map_link_iraq" class="map_box linked">
-	<h2>Iraq</h2>
-	<?php echo $this->Html->image("iraq.jpg"); ?>
-	<p>This map includes all militant organizations operating in Iraq and militant organizations outside Iraq with close ties to those in the country.</p>
+<div class="span-8 last">
+	<h2>Search</h2>
+	<form name="searchform" action="/group/mappingmilitants/cgi-bin/groups/search" method="get">
+		<p><input type="text" name="q" id="q" /></p>
+	</form>
+	<p>
+	<?php
+		echo $this->Html->link('Home', array('controller'=>'pages', 'action'=>'home'), array('class'=>'button fullwidth')) . "\n\t\t";
+		echo $this->Html->link('Read the profiles', array('controller'=>'groups', 'action'=>'index'), array('class'=>'button fullwidth')) . "\n";
+		echo $this->Html->link('Learn about the project', array('controller'=>'pages', 'action'=>'about'), array('class'=>'button fullwidth')) . "\n";
+	?>
+	</p>
 </div>
 <script type="text/javascript">
 	$(function() {
-		$("#map_link_pakistan_un").click(function() {
-			window.location.href = "maps/pakistan_un";
-		});
-		$("#map_link_iraq").click(function() {
-			window.location.href = "maps/iraq";
+		$("div.map_box.linked").click(function() {
+			window.location.href = "<?php echo $this->webroot; ?>maps/view/" + $(this).attr('id');
 		});
 	});
 </script>

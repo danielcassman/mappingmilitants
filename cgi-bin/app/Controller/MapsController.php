@@ -5,18 +5,54 @@ class MapsController extends AppController {
 
 	function index()	{
 		$this->set("title_for_layout", "Maps | Mapping Militant Organizations");
+		$this->set('maps', $this->Map->find('all', array(
+			'conditions'	=>		array('published'	=> true),
+			'order'			=>		'name',
+			'recursive'		=>		0
+		)));
+	}
+	
+	function view($id)	{
+		$map = $this->Map->find('first', array(
+			'conditions'		=>	array('url' => $id)
+		));
+		if($map['Map']['published'] != 1)	{
+			die("Error: this map is not published.");
+		}
+		$this->set('map_id', $map['Map']['id']);
+		$this->layout = 'map';
 	}
 	
 	function iraq()	{
-		$this->set('title_for_layout', 'Iraq | Mapping Militant Organizations');
-		$this->set('map_id', 3);
-		$this->layout = 'map';
+		$this->redirect(array(
+			'controller'=>'maps',
+			'action' => 'view',
+			'iraq'
+		));
 	}
 
 	function pakistan_un()	{
-		$this->set('map_id', 13);
-		$this->set('title_for_layout', 'Pakistan (UN Designated) | Mapping Militant Organizations');
-		$this->layout = 'map';
+		$this->redirect(array(
+			'controller'=>'maps',
+			'action' => 'view',
+			'pakistan_un'
+		));
+	}
+
+	function italy()	{
+		$this->redirect(array(
+			'controller'=>'maps',
+			'action' => 'view',
+			'italy'
+		));
+	}
+	
+	function somalia()	{
+		$this->redirect(array(
+			'controller'=>'maps',
+			'action' => 'view',
+			'somalia'
+		));
 	}
 
 	/* Function: jsondata

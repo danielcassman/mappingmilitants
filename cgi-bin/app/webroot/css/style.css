@@ -254,16 +254,24 @@ input#q	{
 
 div.map_box	{
 	float:left;
-	padding: 10px;
+	padding: 10px 10px 10px 150px;
 	border:1px solid #aaa;
-	width: 264px;
-	margin: 0 15px;
+	width: 440px;
+	height: 130px;
+	margin: 15px 0;
 
 	-moz-border-radius: 	5px;
 	-webkit-border-radius:	5px;
 	border-radius:			5px;
 	-moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
 	text-align:center;
+
+	background-position: left top;
+	background-repeat: no-repeat;
+}
+
+div.map_box h2{
+	text-align:				left;
 }
 
 div.map_box img {
@@ -299,13 +307,12 @@ div.map_box.linked:hover	{
 
 #map-preview	{
 	height:					50px;
-	width:					590px;
+	width:					560px;
 	/*width:				302px;*/
-	padding:				10px 10px 10px 160px;
+	padding:				10px 10px 10px 10px;
 	/*margin-left:			59px;*/
-	margin-left:			95px;
+	margin-left:			140px;
 	border:					1px solid black;
-	background:				#FFF url(../img/iraq-preview.jpg) no-repeat;
 	-moz-border-radius: 	5px;
 	-webkit-border-radius:	5px;
 	border-radius:			5px;
