@@ -3,7 +3,12 @@
 	$this->Html->script(array('http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js','jquery.tablesorter.min'), array('inline'=>false));
 	$this->Html->css('tablesort.css', 'stylesheet', array('inline'=>false));
 	echo $this->Html->css('buttons','stylesheet',array('inline'=>false));
-	$maps = array("Iraq" => $iraq, "Italy" => $italy,  "Pakistan (UN Designated)" => $afpak);
+	$maps = array(
+		"Iraq" => $iraq,
+		"Italy" => $italy, 
+		"Pakistan (UN Designated)" => $afpak,
+		"Somalia" => $somalia
+	);
 ?>
 <h1 class="span-24">Profiles</h1>
 <div class="span-15 colborder">

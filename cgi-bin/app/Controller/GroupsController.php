@@ -16,6 +16,10 @@ class GroupsController extends AppController {
 			'conditions'		=>	array("id IN (SELECT group_id FROM map_groups WHERE map_id = 15)", "dummy=0"),
 			'order'				=>	'name'
 		)));
+		$this->set('somalia', $this->Group->find('all', array(
+			'conditions'		=>	array("id IN (SELECT group_id FROM map_groups WHERE map_id = 11)", "dummy=0"),
+			'order'				=>	'name'
+		)));
 	}
 	
 	function test($id = null)	{
