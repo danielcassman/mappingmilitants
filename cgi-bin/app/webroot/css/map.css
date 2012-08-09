@@ -101,7 +101,7 @@ div#map_container div.group	{
 }
 
 div#map_container div.group.active	{
-	background:				#transparent url(../img/arrow-down2.png) bottom center no-repeat;
+	background:				transparent url(../img/arrow-down.png) bottom center no-repeat;
 }
 
 div#map_container div.group span {
