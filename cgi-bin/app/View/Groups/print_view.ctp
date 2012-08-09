@@ -4,14 +4,15 @@
 	$this->Html->css('printable', 'stylesheet', array('inline'=>false));
 	echo $this->Html->script('http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js', array('inline'=>false));
 ?>
-	<h1>Profile: <?php echo stripslashes($profile['Group']['name']); ?></h1>
-	<?php echo stripslashes($profile['Group']['html']); ?>
+	<?php
+		echo stripslashes($profile['Group']['html']);
+		echo '<h2 id="reference-header">References</h2>';
+		echo $profile['Group']['footnotes'];
+	?>
 	
 	<script type="text/javascript">
 		var ref_header;
-		$(document).ready(function()	{
-			var h2s = $('h2');
-			ref_header = h2s[h2s.length - 1];
+		$(function()	{
 			$('a.footnote').each(function(i)	{
 				var text = $(this).text();
 				$(this).text(text.substring(1, text.indexOf(']')));
@@ -30,12 +31,12 @@
 			$('#show_footnotes').change(function()	{
 				if($(this).attr('checked'))	{
 					$('a.footnote').removeClass('no_print');
-					$('ol.reference-list').removeClass('no_print');
-					$(ref_header).text('References');
+					$('ol#references').removeClass('no_print');
+					$("#reference-header").text('References');
 				}	else	{
 					$('a.footnote').addClass('no_print');
-					$('ol.reference-list').addClass('no_print');
-					$(ref_header).text('');
+					$('ol#references').addClass('no_print');
+					$("#reference-header").text('');
 				}
 			});
 		});

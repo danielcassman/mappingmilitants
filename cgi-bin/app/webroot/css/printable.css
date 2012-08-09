@@ -6,6 +6,14 @@ html	{
 	text-align:center;
 }
 
+p, ul, ol	{
+	line-height:1.5em;
+}
+
+sup	{
+	line-height:1em;
+}
+
 a:link, a:visited	{color:#000; text-decoration:none;}
 
 div#wrap	{
@@ -22,6 +30,7 @@ h1	{
 h2	{
 	font-size:1.6em;
 	font-weight:bold;
+	margin-bottom:.25em;
 }
 
 h3	{
@@ -116,4 +125,20 @@ strong	{
 	#control	{
 		display:none;
 	}
+}
+
+#basic-info	{
+	border:			1px solid black;
+	margin-bottom:	1em;
+}
+
+#basic-info td 	{
+	background-color:		#fff;
+	padding:				4px 4px 4px 10px;
+}
+
+#basic-info th 	{
+	padding:				4px 0 4px 4px;
+	background-color:		#e5ecf9;
+	width:					100px;
 }

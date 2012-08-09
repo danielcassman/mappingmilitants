@@ -24,10 +24,10 @@
 	echo highlight($this->data['Group']['html'], $highlight) . "<br />";
 	echo '<h2>References</h2>';
 	echo $this->data['Group']['footnotes'];
-	//echo preg_replace('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', '<a href="$1">$1</a>', $footnotes);
 ?>
 </div>
 <div class="span-8 last">
+	<p><?php echo $this->Html->link('Print this page', array('controller' => 'groups', 'action' => 'print_view', $this->data['Group']['id']), array('target' => '_blank')); ?></p>
 	<h2>Contents</h2>
 	<?php echo $this->data['Group']['toc']; ?>
 	<h2>Search</h2>
@@ -38,9 +38,6 @@
 <script type="text/javascript" language="javascript">
 	function clearHighlight()	{
 		$("span.highlight").attr("class","");
-		/*for(var i = 1; i <= 6; i++)	{
-			$('span.highlight' + i, '#content').removeClass('highlight' + i);
-		}*/
 		$('#highlight-summary').remove();
 	}
 </script>
