@@ -642,8 +642,12 @@ fitGroupToTimeline = function(div, increment, startyear, endyear, animate) {
   $("div.link.group" + $(div).attr("id").substring(6)).removeClass("timeline_inactive");
   if (processDate($(div).attr("data-startdate"), "y") >= startyear) {
     top = findDateOnTimeline($(div).attr("data-startdate"), increment);
+    $(div).children("div.earlier").remove();
   } else {
     top = $("#year-" + startyear).position().top;
+    $(div).append($("<div/>", {
+      "class": "earlier"
+    }));
   }
   $(div).animate({
     "margin-top": top,
@@ -789,6 +793,11 @@ addGroupToMap = function(order, group_data, startdate, enddate, container) {
       "class": "group_timeline"
     })
   });
+  if (start_year !== group.startdate) {
+    $(div).append($("<div/>", {
+      "class": "earlier"
+    }));
+  }
   _ref = group_data.Attack;
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     attack = _ref[_i];

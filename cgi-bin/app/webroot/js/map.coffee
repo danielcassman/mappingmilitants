@@ -462,8 +462,12 @@ fitGroupToTimeline = (div, increment, startyear, endyear, animate = true) ->
 	$("div.link.group" + $(div).attr("id").substring(6)).removeClass "timeline_inactive"
 	if processDate($(div).attr("data-startdate"), "y") >= startyear
 		top = findDateOnTimeline($(div).attr("data-startdate"), increment)
+		$(div).children("div.earlier").remove()
 	else
 		top = $("#year-" + startyear).position().top
+		$(div).append($ "<div/>"
+			"class":"earlier"
+		)
 	$(div).animate(
 		"margin-top": top
 		height: findDateOnTimeline($(div).attr("data-enddate"), increment) - top + (if $(div).hasClass("active") then $("li", "#timeline").first().outerHeight() + (parseInt($("#timeline").css("padding-bottom"), 10) - settings.SCROLL_BAR_WIDTH) else 0)
@@ -580,6 +584,10 @@ addGroupToMap = (order, group_data, startdate, enddate, container) ->
 		html: $ "<div/>"
 			class: "group_timeline"
 	)
+	if start_year isnt group.startdate
+		$(div).append($ "<div/>"
+			"class":"earlier"
+		)
 	for attack in group_data.Attack
 		if attack.date != '0000-00-00'
 			addAttackToGroup div.children("div"), attack, top
