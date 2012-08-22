@@ -574,7 +574,7 @@ addGroupToMap = (order, group_data, startdate, enddate, container) ->
 		"data-name": group.name
 		"data-shortname": group.shortname
 		"data-order": order
-		"data-startdate": start_year
+		"data-startdate": group.startdate
 		"data-enddate": group.enddate
 		"data-id": group.id
 		html: $ "<div/>"
