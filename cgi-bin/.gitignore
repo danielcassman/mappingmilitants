@@ -6,4 +6,4 @@
 /vendors
 .DS_Store
 tags
-/files/csv/*
+/app/webroot/files/csv/*
