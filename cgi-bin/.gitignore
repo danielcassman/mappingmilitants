@@ -1,0 +1,9 @@
+/app/Config
+/app/Console
+/app/tmp
+/lib
+/plugins
+/vendors
+.DS_Store
+tags
+/files/csv/*
