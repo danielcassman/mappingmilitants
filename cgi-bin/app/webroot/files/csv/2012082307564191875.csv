@@ -1,0 +1,4 @@
+id,name,active_bool,years_active,num_leaders,leader_duration,num_countries,num_attacks,attacks_per_year
+9,"1920s Revolution Brigades",1,5,7,1,1,4,0.8
+253,"Abu Nidal Organization",1,38,1,28,4,7,0.18421052631579
+109,"Ahlu Sunna Wal Jama",1,21,12,"",1,11,0.52380952380952
