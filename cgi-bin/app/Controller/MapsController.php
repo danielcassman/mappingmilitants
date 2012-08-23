@@ -19,6 +19,7 @@ class MapsController extends AppController {
 		if($map['Map']['published'] != 1)	{
 			die("Error: this map is not published.");
 		}
+		$this->set('title_for_layout', $map['Map']['name'] . ' | Mapping Militant Organizations');
 		$this->set('map_id', $map['Map']['id']);
 		$this->layout = 'map';
 	}
